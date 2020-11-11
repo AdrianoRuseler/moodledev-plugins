@@ -1,0 +1,12 @@
+[submodule "moodle/admin/tool/pluginskel"]
+	path = moodle/admin/tool/pluginskel
+	url = https://github.com/mudrd8mz/moodle-tool_pluginskel.git
+	branch = master
+[submodule "moodle/local/codechecker"]
+	path = moodle/local/codechecker
+	url = https://github.com/moodlehq/moodle-local_codechecker.git
+	branch = master
+[submodule "moodle/local/moodlecheck"]
+	path = moodle/local/moodlecheck
+	url = https://github.com/moodlehq/moodle-local_moodlecheck.git
+	branch = master
