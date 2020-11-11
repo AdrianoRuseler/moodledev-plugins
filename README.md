@@ -14,6 +14,12 @@ cd moodle
 git submodule add -b master https://github.com/moodlehq/moodle-local_codechecker.git local/codechecker
 ```
 
+- https://moodle.org/plugins/local_moodlecheck
+- https://github.com/moodlehq/moodle-local_moodlecheck
+
+```bash
+git submodule add -b master https://github.com/moodlehq/moodle-local_moodlecheck.git local/moodlecheck
+```
 
 ## Remove
 ```bash
