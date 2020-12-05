@@ -10,3 +10,7 @@
 	path = moodle/local/moodlecheck
 	url = https://github.com/moodlehq/moodle-local_moodlecheck.git
 	branch = master
+[submodule "moodle/local/adminer"]
+	path = moodle/local/adminer
+	url = https://github.com/grabs/moodle-local_adminer.git
+	branch = MOODLE_39_STABLE
