@@ -26,6 +26,14 @@ git submodule add -b master https://github.com/moodlehq/moodle-local_codechecker
 git submodule add -b master https://github.com/moodlehq/moodle-local_moodlecheck.git local/moodlecheck
 ```
 
+- https://moodle.org/plugins/local_adminer
+- https://github.com/grabs/moodle-local_adminer
+
+```bash
+git submodule add -b MOODLE_39_STABLE https://github.com/grabs/moodle-local_adminer.git local/adminer
+```
+
+
 ## Remove
 ```bash
 git submodule deinit <path_to_submodule>
