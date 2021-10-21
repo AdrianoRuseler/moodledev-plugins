@@ -10,3 +10,7 @@
 	path = moodle/local/adminer
 	url = https://github.com/grabs/moodle-local_adminer.git
 	branch = MOODLE_39_STABLE
+[submodule "moodle/admin/tool/pluginskel"]
+	path = moodle/admin/tool/pluginskel
+	url = https://github.com/mudrd8mz/moodle-tool_pluginskel.git
+	branch = main
