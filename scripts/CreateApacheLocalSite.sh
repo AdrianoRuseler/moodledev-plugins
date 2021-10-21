@@ -3,8 +3,35 @@
 # systemctl status apache2.service --no-pager --lines=2
 
 # Set web server (apache)
-LOCALSITENAME="devtest.local"
-LOCALSITEFOLDER="devtest"
+# export LOCALSITENAME="devtest.local"
+# export LOCALSITEFOLDER="devtest"
+
+RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
+
+if [[ ! -v LOCALSITENAME ]]; then
+    echo "LOCALSITENAME is not set"
+	LOCALSITENAME=${RAMDONNAME}'.local' # Generates ramdon site name
+elif [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is set to the empty string"
+	LOCALSITENAME=${RAMDONNAME}'.local' # Generates ramdon site name
+else
+    echo "LOCALSITENAME has the value: $LOCALSITENAME"
+fi
+
+if [[ ! -v LOCALSITEFOLDER ]]; then
+    echo "LOCALSITEFOLDER is not set"
+	LOCALSITEFOLDER=${RAMDONNAME}
+elif [[ -z "$LOCALSITEFOLDER" ]]; then
+    echo "LOCALSITEFOLDER is set to the empty string"
+	LOCALSITEFOLDER=${RAMDONNAME}
+else
+    echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
+fi
+
+echo ""
+echo "LOCALSITENAME has the value: $LOCALSITENAME"
+echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
+
 
 # Create new conf files
 cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
