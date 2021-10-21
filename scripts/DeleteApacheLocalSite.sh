@@ -4,7 +4,7 @@
 LOCALSITENAME="devtest.local"
 LOCALSITEFOLDER="devtest"
 
-service apache2 status --no-pager
+# systemctl status apache2.service --no-pager --lines=2
 
 # Enable site
 sudo a2dissite ${LOCALSITENAME}-ssl.conf
@@ -17,7 +17,7 @@ rm /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf /etc/ssl/certs/${LOCAL
 rm -rf /var/www/html/${LOCALSITEFOLDER}
 
 
-service apache2 status --no-pager
+systemctl status apache2.service --no-pager --lines=2
 
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
