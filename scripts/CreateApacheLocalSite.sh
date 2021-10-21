@@ -1,7 +1,6 @@
 #!/bin/bash
 
-service apache2 status --no-pager
-
+# systemctl status apache2.service --no-pager --lines=2
 
 # Set web server (apache)
 LOCALSITENAME="devtest.local"
@@ -39,7 +38,7 @@ sed -i 's/ssl-cert-snakeoil.key/'${LOCALSITENAME}$'-selfsigned.key/' /etc/apache
 sudo a2ensite ${LOCALSITENAME}-ssl.conf
 sudo systemctl reload apache2
 
-service apache2 status --no-pager
+systemctl status apache2.service --no-pager --lines=2
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
 echo ""
