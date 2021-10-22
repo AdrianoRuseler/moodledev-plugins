@@ -38,8 +38,20 @@ rm /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf /etc/ssl/certs/${LOCAL
 # Remove folder
 rm -rf /var/www/html/${LOCALSITEFOLDER}
 
-
+echo ""
+echo "##------------ status apache2.service -----------------##"
+echo ""
 systemctl status apache2.service --no-pager --lines=2
+
+# List Apache Virtual Host Configurations
+echo ""
+echo "##-------- List Apache Virtual Host Configurations -------------##"
+echo ""
+apache2ctl -S
+
+echo ""
+echo "##------------ LOCAL DNS SERVICE CONFIGURATION -----------------##"
+echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
 echo ""
