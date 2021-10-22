@@ -65,7 +65,20 @@ sed -i 's/ssl-cert-snakeoil.key/'${LOCALSITENAME}$'-selfsigned.key/' /etc/apache
 sudo a2ensite ${LOCALSITENAME}-ssl.conf
 sudo systemctl reload apache2
 
+echo ""
+echo "##------------ status apache2.service -----------------##"
+echo ""
 systemctl status apache2.service --no-pager --lines=2
+
+# List Apache Virtual Host Configurations
+echo ""
+echo "##-------- List Apache Virtual Host Configurations -------------##"
+echo ""
+apache2ctl -S
+
+echo ""
+echo "##------------ LOCAL DNS SERVICE CONFIGURATION -----------------##"
+echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
 echo ""
