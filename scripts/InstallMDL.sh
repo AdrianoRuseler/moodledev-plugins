@@ -162,6 +162,8 @@ MDLADMEMAIL="admin@mail.local"
 mdlver=$(cat $MDLHOME/version.php | grep '$release' | cut -d\' -f 2) # Gets Moodle Version
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=pt_br --adminpass=$MDLADMPASS --agree-license --adminemail=$MDLADMEMAIL --fullname="Moodle $mdlver" --shortname="Moodle $mdlver"
 
+# Add cron for moodle - Shows: no crontab for root
+(crontab -l | grep . ; echo -e "*/1 * * * * /usr/bin/php  $MDLHOME/admin/cli/cron.php >/dev/null\n") | crontab -
 
 # rm $MDLCONFIGFILE
 # rm $MDLDEFAULTSFILE
