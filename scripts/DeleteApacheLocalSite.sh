@@ -4,6 +4,11 @@
 # export LOCALSITENAME="devtest.local"
 # export LOCALSITEFOLDER="devtest"
 
+# Load .env
+if [ -f .env ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' .env | xargs)
+fi
 
 if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set"
