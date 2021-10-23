@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set web server (apache)
-# export LOCALSITENAME="devtest.local"
-# export LOCALSITEFOLDER="devtest"
+# export LOCALSITENAME="lpftnf.local"
+# export LOCALSITEFOLDER="lpftnf"
 
 # Load .env
 if [ -f .env ]; then
@@ -59,5 +59,4 @@ echo "##------------ LOCAL DNS SERVICE CONFIGURATION -----------------##"
 echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
-echo ""
 echo "Remove $IP4STR $LOCALSITENAME from %WINDIR%\System32\drivers\etc\hosts "
