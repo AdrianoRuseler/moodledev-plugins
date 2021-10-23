@@ -108,3 +108,12 @@ echo "Add $IP4STR $LOCALSITENAME to %WINDIR%\System32\drivers\etc\hosts or run a
 echo "echo $IP4STR $LOCALSITENAME >> %WINDIR%\System32\drivers\etc\hosts"
 
 
+echo ""
+echo "##------------ NEW SITE URL -----------------##"
+echo ""
+
+echo "https://$LOCALSITENAME"
+
+echo ""
+echo "##-------------------------------------------##"
+echo ""
