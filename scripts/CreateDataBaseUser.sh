@@ -15,6 +15,11 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
+datastr=$(date) # Generates datastr
+echo "" >> .env
+echo "# ----- $datastr -----" >> .env
+
+
 # If /root/.my.cnf exists then it won't ask for root password
 if [ -f /root/.my.cnf ]; then
    echo "/root/.my.cnf exists"
