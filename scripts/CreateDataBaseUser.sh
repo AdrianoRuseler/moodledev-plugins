@@ -46,10 +46,22 @@ else
 	fi
 fi
 
+# Verify for LOCALSITENAME
+if [[ ! -v LOCALSITENAME ]]; then
+    echo "LOCALSITENAME is not set"
+	DBNAME=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon db name
+elif [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is set to the empty string"
+	DBNAME=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon db name
+else
+    echo "LOCALSITEURL has the value: $LOCALSITEURL"
+	DBNAME=$LOCALSITENAME	
+fi
+
 echo ""
 echo "##---------------------- GENERATES NEW DB -------------------------##"
 echo ""
-DBNAME=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon db name
+
 #DBUSER=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon user name
 DBUSER=$DBNAME # Use same generated ramdon user name
 DBPASS=$(pwgen -s 14 1) # Generates ramdon password for db user
@@ -64,8 +76,7 @@ echo "" >> .env
 echo "# DataBase credentials" >> .env
 echo "DBNAME=\"$DBNAME\"" >> .env
 echo "DBUSER=\"$DBUSER\"" >> .env
-echo "DBPASS=\"$DBPASS\"" >> .env
-	
+echo "DBPASS=\"$DBPASS\"" >> .env	
 
 # If /root/.my.cnf exists then it won't ask for root password
 if [ -f /root/.my.cnf ]; then
@@ -80,3 +91,9 @@ else
     mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO '${DBUSER}'@'localhost';"
     mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "FLUSH PRIVILEGES;"
 fi
+
+
+
+
+
+
