@@ -1,12 +1,11 @@
 #!/bin/bash
 
-datastr=$(date) # Generates datastr
-
 # Load Environment Variables
 if [ -f .env ]; then	
 	export $(grep -v '^#' .env | xargs)
 fi
 
+datastr=$(date) # Generates datastr
 echo "" >> .env
 echo "# ----- $datastr -----" >> .env
 
