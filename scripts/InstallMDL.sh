@@ -167,3 +167,14 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=pt_
 
 # rm $MDLCONFIGFILE
 # rm $MDLDEFAULTSFILE
+
+echo ""
+echo "##----------- NEW MOODLE SITE URL ----------------##"
+echo ""
+
+echo "https://$LOCALSITENAME"
+
+echo ""
+echo "##------------------------------------------------##"
+echo ""
+
