@@ -140,9 +140,9 @@ else
     echo "MDLCONFIGDISTFILE has the value: $MDLCONFIGDISTFILE"	
 fi
  
- MDLCONFIGFILE="$MDLHOME/config.php"
+MDLCONFIGFILE="$MDLHOME/config.php"
  
- # Copy moodle config file
+# Copy moodle config file
 wget $MDLCONFIGDISTFILE -O $MDLCONFIGFILE
 
 sed -i 's/mydbname/'"$DBNAME"'/' $MDLCONFIGFILE # Configure DB Name
@@ -151,3 +151,10 @@ sed -i 's/mydbpass/'"$DBPASS"'/' $MDLCONFIGFILE # Configure DB password
 sed -i 's/mysiteurl/https:\/\/'"$LOCALSITENAME"'/' $MDLCONFIGFILE # Configure url
 sed -i 's/mydatafolder/'"${MDLDATA##*/}"'/' $MDLCONFIGFILE # Configure Moodle Data directory
 
+
+MDLDEFAULTSDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/defaults-dist.php"
+MDLDEFAULTSFILE="$MDLHOME/local/defaults.php"
+ # Copy moodle defaults file
+wget $MDLDEFAULTSDISTFILE -O $MDLDEFAULTSFILE
+
+sed -i 's/myadmpass/'"$MDLADMPASS"'/' $MDLDEFAULTSFILE # Set password in file
