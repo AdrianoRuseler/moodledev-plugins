@@ -15,10 +15,25 @@ elif [[ -z "$LOCALSITEFOLDER" ]]; then
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
 	MDLDATA="/var/www/data/$LOCALSITEFOLDER"
-	mkdir $MDLDATA
 	echo "MDLDATA=\"$MDLDATA\"" >> .env
     MDLHOME="/var/www/html/$LOCALSITEFOLDER"
 	echo "MDLHOME=\"$MDLHOME\"" >> .env
+fi
+
+# Verify if folder exists
+if [[ -d "$MDLHOME" ]]; then
+	echo "$MDLHOME exists on your filesystem."
+else
+    echo "$MDLHOME NOT exists on your filesystem."
+	exit 1
+fi
+
+# Verify if folder exists
+if [[ -d "$MDLDATA" ]]; then
+	echo "$MDLDATA exists on your filesystem."
+else
+    echo "$MDLDATA NOT exists on your filesystem."
+	mkdir $MDLDATA
 fi
 
 # Empty MDLHOME
