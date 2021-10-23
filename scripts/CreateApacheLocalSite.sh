@@ -12,14 +12,15 @@
 if [ -f .env ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' .env | xargs)
-	cat .env
 fi
 
 datastr=$(date) # Generates datastr
 echo "" >> .env
 echo "# ----- $datastr -----" >> .env
 
-RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
+# RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
+
+RAMDONNAME=$(pwgen 8 -sv1A0) # Generates ramdon name
 
 if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set"
