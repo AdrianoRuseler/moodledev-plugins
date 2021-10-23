@@ -19,7 +19,7 @@ $CFG->dboptions = array (
 );
 
 $CFG->wwwroot   = 'mysiteurl';
-$CFG->dataroot  = 'mydatafolder';
+$CFG->dataroot  = '/var/www/data/mydatafolder';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
