@@ -1,9 +1,14 @@
 #!/bin/bash
 
+datastr=$(date) # Generates datastr
+
 # Load Environment Variables
 if [ -f .env ]; then	
 	export $(grep -v '^#' .env | xargs)
 fi
+
+echo "" >> .env
+echo "# ----- $datastr -----" >> .env
 
 # Verify for LOCALSITEFOLDER
 if [[ ! -v LOCALSITEFOLDER ]]; then
@@ -52,6 +57,7 @@ else
    rm -rf $MDLDATA/*
 fi
 
+# export MDLBRANCH="MOODLE_311_STABLE"
 # Verify for Moodle Branch
 if [[ ! -v MDLBRANCH ]]; then
     echo "MDLBRANCH is not set"
