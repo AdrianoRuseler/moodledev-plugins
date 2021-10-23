@@ -21,6 +21,22 @@ else
 	echo "MDLHOME=\"$MDLHOME\"" >> .env
 fi
 
+# Empty MDLHOME
+if [ -z "$(ls -A $MDLHOME)" ]; then
+   echo "$MDLHOME is Empty"
+else
+   echo "$MDLHOME is Not Empty"
+   rm -rf $MDLHOME/*
+fi
+
+# Empty MDLDATA
+if [ -z "$(ls -A $MDLDATA)" ]; then
+   echo "$MDLDATA is Empty"
+else
+   echo "$MDLDATA is Not Empty"
+   rm -rf $MDLDATA/*
+fi
+
 # Verify for Moodle Branch
 if [[ ! -v MDLBRANCH ]]; then
     echo "MDLBRANCH is not set"
