@@ -10,6 +10,7 @@
 if [ -f .env ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' .env | xargs)
+	cat .env
 fi
 
 RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
