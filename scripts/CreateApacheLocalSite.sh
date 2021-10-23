@@ -92,7 +92,7 @@ echo "##------------ LOCAL DNS SERVICE CONFIGURATION -----------------##"
 echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
-echo ""
+
 echo "Add $IP4STR $LOCALSITENAME to %WINDIR%\System32\drivers\etc\hosts or run as admin:"
 echo "echo $IP4STR $LOCALSITENAME >> %WINDIR%\System32\drivers\etc\hosts"
 
