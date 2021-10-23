@@ -13,6 +13,10 @@ if [ -f .env ]; then
 	cat .env
 fi
 
+datastr=$(date) # Generates datastr
+echo "" >> .env
+echo "# ----- $datastr -----" >> .env
+
 RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
 
 if [[ ! -v LOCALSITENAME ]]; then
