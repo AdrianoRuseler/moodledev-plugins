@@ -3,8 +3,10 @@
 # systemctl status apache2.service --no-pager --lines=2
 
 # Set web server (apache)
-# export LOCALSITENAME="devtest.local"
+# export LOCALSITENAME="devtest"
+# export LOCALSITEURL="devtest.local"
 # export LOCALSITEFOLDER="devtest"
+# export LOCALSITEDIR="devtest"
 
 # Load .env
 if [ -f .env ]; then
@@ -21,30 +23,43 @@ RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
 
 if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set"
-	LOCALSITENAME=${RAMDONNAME}'.local' # Generates ramdon site name
+	LOCALSITENAME=${RAMDONNAME} # Generates ramdon site name
 	echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> .env
 elif [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is set to the empty string"
-	LOCALSITENAME=${RAMDONNAME}'.local' # Generates ramdon site name
+	LOCALSITENAME=${RAMDONNAME} # Generates ramdon site name
 	echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> .env
 else
-    echo "LOCALSITENAME has the value: $LOCALSITENAME"
+    echo "LOCALSITEURL has the value: $LOCALSITEURL"
 fi
+
+if [[ ! -v LOCALSITEURL ]]; then
+    echo "LOCALSITEURL is not set"
+	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
+	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> .env
+elif [[ -z "$LOCALSITEURL" ]]; then
+    echo "LOCALSITEURL is set to the empty string"
+	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
+	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> .env
+else
+    echo "LOCALSITEURL has the value: $LOCALSITEURL"
+fi
+
 
 if [[ ! -v LOCALSITEFOLDER ]]; then
     echo "LOCALSITEFOLDER is not set"
-	LOCALSITEFOLDER=${RAMDONNAME}
+	LOCALSITEFOLDER=${LOCALSITENAME}
 	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> .env
 elif [[ -z "$LOCALSITEFOLDER" ]]; then
     echo "LOCALSITEFOLDER is set to the empty string"
-	LOCALSITEFOLDER=${RAMDONNAME}
+	LOCALSITEFOLDER=${LOCALSITENAME}
 	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> .env
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
 
 echo ""
-echo "LOCALSITENAME has the value: $LOCALSITENAME"
+echo "LOCALSITEURL has the value: $LOCALSITEURL"
 echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 
 # Verify if folder exists
@@ -56,13 +71,13 @@ else
 fi
 
 # Create new conf files
-cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
+cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
 
 # Create certificate
-openssl req -x509 -out /etc/ssl/certs/${LOCALSITENAME}-selfsigned.crt -keyout /etc/ssl/private/${LOCALSITENAME}-selfsigned.key \
+openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /etc/ssl/private/${LOCALSITEURL}-selfsigned.key \
  -newkey rsa:2048 -nodes -sha256 \
- -subj '/CN='${LOCALSITENAME}$'' -extensions EXT -config <( \
-  printf "[dn]\nCN='${LOCALSITENAME}$'\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:'${LOCALSITENAME}$'\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+ -subj '/CN='${LOCALSITEURL}$'' -extensions EXT -config <( \
+  printf "[dn]\nCN='${LOCALSITEURL}$'\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:'${LOCALSITEURL}$'\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
   
 # create site folder
 mkdir /var/www/html/${LOCALSITEFOLDER}
@@ -72,19 +87,19 @@ touch /var/www/html/${LOCALSITEFOLDER}/index.php
 echo '<?php  phpinfo(); ?>' >> /var/www/html/${LOCALSITEFOLDER}/index.php
 
 # Change site folder and name
-sed -i 's/\/var\/www\/html/\/var\/www\/html\/'${LOCALSITEFOLDER}$'/' /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
-sed -i 's/changetoservername/'${LOCALSITENAME}$'/' /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
+sed -i 's/\/var\/www\/html/\/var\/www\/html\/'${LOCALSITEFOLDER}$'/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+sed -i 's/changetoservername/'${LOCALSITEURL}$'/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
 
 # Change site log files
-sed -i 's/error.log/'${LOCALSITENAME}$'-error.log/' /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
-sed -i 's/access.log/'${LOCALSITENAME}$'-access.log/' /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
+sed -i 's/error.log/'${LOCALSITEURL}$'-error.log/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+sed -i 's/access.log/'${LOCALSITEURL}$'-access.log/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
 
 # Change site certificate
-sed -i 's/ssl-cert-snakeoil.pem/'${LOCALSITENAME}$'-selfsigned.crt/' /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
-sed -i 's/ssl-cert-snakeoil.key/'${LOCALSITENAME}$'-selfsigned.key/' /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
+sed -i 's/ssl-cert-snakeoil.pem/'${LOCALSITEURL}$'-selfsigned.crt/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+sed -i 's/ssl-cert-snakeoil.key/'${LOCALSITEURL}$'-selfsigned.key/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
 
 # Enable site
-sudo a2ensite ${LOCALSITENAME}-ssl.conf
+sudo a2ensite ${LOCALSITEURL}-ssl.conf
 sudo systemctl reload apache2
 
 echo ""
@@ -104,15 +119,15 @@ echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
 
-echo "Add $IP4STR $LOCALSITENAME to %WINDIR%\System32\drivers\etc\hosts or run as admin:"
-echo "echo $IP4STR $LOCALSITENAME >> %WINDIR%\System32\drivers\etc\hosts"
+echo "Add $IP4STR $LOCALSITEURL to %WINDIR%\System32\drivers\etc\hosts or run as admin:"
+echo "echo $IP4STR $LOCALSITEURL >> %WINDIR%\System32\drivers\etc\hosts"
 
 
 echo ""
 echo "##------------ NEW SITE URL -----------------##"
 echo ""
 
-echo "https://$LOCALSITENAME"
+echo "https://$LOCALSITEURL"
 
 echo ""
 echo "##-------------------------------------------##"
