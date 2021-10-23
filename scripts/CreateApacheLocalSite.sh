@@ -47,6 +47,13 @@ echo ""
 echo "LOCALSITENAME has the value: $LOCALSITENAME"
 echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 
+# Verify if folder exists
+if [[ -d "$LOCALSITEFOLDER" ]]; then
+	echo "$LOCALSITEFOLDER exists on your filesystem."
+	exit 1
+else
+    echo "$LOCALSITEFOLDER NOT exists on your filesystem."
+fi
 
 # Create new conf files
 cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf
