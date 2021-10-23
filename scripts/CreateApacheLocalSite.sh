@@ -6,6 +6,12 @@
 # export LOCALSITENAME="devtest.local"
 # export LOCALSITEFOLDER="devtest"
 
+# Load .env
+if [ -f .env ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' .env | xargs)
+fi
+
 RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
 
 if [[ ! -v LOCALSITENAME ]]; then
