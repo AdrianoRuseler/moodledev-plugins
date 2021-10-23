@@ -9,6 +9,12 @@
 # user="dbadmuser"
 # password="dbadmpass"
 
+# Load .env
+if [ -f .env ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' .env | xargs)
+fi
+
 # If /root/.my.cnf exists then it won't ask for root password
 if [ -f /root/.my.cnf ]; then
    echo "/root/.my.cnf exists"
@@ -48,6 +54,13 @@ echo "DB User: $DBUSER"
 echo "DB Pass: $DBPASS"
 echo ""
 
+# Save Environment Variables
+echo "" >> .env
+echo "# DataBase credentials" >> .env
+echo "DBNAME=\"$DBNAME\"" >> .env
+echo "DBUSER=\"$DBUSER\"" >> .env
+echo "DBPASS=\"$DBPASS\"" >> .env
+	
 
 # If /root/.my.cnf exists then it won't ask for root password
 if [ -f /root/.my.cnf ]; then
@@ -62,4 +75,3 @@ else
     mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO '${DBUSER}'@'localhost';"
     mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "FLUSH PRIVILEGES;"
 fi
-
