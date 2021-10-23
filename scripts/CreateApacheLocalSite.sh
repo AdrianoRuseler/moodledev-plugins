@@ -31,7 +31,7 @@ elif [[ -z "$LOCALSITENAME" ]]; then
 	LOCALSITENAME=${RAMDONNAME} # Generates ramdon site name
 	echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> .env
 else
-    echo "LOCALSITEURL has the value: $LOCALSITEURL"
+    echo "LOCALSITENAME has the value: $LOCALSITENAME"
 fi
 
 if [[ ! -v LOCALSITEURL ]]; then
