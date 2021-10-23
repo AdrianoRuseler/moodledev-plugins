@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Set web server (apache)
-# export LOCALSITENAME="lpftnf.local"
+# export LOCALSITEURL="lpftnf.local"
 # export LOCALSITEFOLDER="lpftnf"
+# export LOCALSITEDIR="/var/www/html/lpftnf"
 
 # Load .env
 if [ -f .env ]; then
@@ -10,14 +11,14 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-if [[ ! -v LOCALSITENAME ]]; then
-    echo "LOCALSITENAME is not set"
+if [[ ! -v LOCALSITEURL ]]; then
+    echo "LOCALSITEURL is not set"
         exit 1
-elif [[ -z "$LOCALSITENAME" ]]; then
-    echo "LOCALSITENAME is set to the empty string"
+elif [[ -z "$LOCALSITEURL" ]]; then
+    echo "LOCALSITEURL is set to the empty string"
         exit 1
 else
-    echo "LOCALSITENAME has the value: $LOCALSITENAME"
+    echo "LOCALSITEURL has the value: $LOCALSITEURL"
 fi
 
 if [[ ! -v LOCALSITEFOLDER ]]; then
@@ -34,11 +35,11 @@ fi
 # systemctl status apache2.service --no-pager --lines=2
 
 # Enable site
-sudo a2dissite ${LOCALSITENAME}-ssl.conf
+sudo a2dissite ${LOCALSITEURL}-ssl.conf
 sudo systemctl reload apache2
 
 # remove apache files
-rm /etc/apache2/sites-available/${LOCALSITENAME}-ssl.conf /etc/ssl/certs/${LOCALSITENAME}-selfsigned.crt /etc/ssl/private/${LOCALSITENAME}-selfsigned.key
+rm /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt /etc/ssl/private/${LOCALSITEURL}-selfsigned.key
 
 # Remove folder
 rm -rf /var/www/html/${LOCALSITEFOLDER}
@@ -59,4 +60,4 @@ echo "##------------ LOCAL DNS SERVICE CONFIGURATION -----------------##"
 echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
-echo "Remove $IP4STR $LOCALSITENAME from %WINDIR%\System32\drivers\etc\hosts "
+echo "Remove $IP4STR $LOCALSITEURL from %WINDIR%\System32\drivers\etc\hosts "
