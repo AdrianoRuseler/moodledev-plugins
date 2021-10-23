@@ -17,9 +17,11 @@ RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
 if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set"
 	LOCALSITENAME=${RAMDONNAME}'.local' # Generates ramdon site name
+	echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> .env
 elif [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is set to the empty string"
 	LOCALSITENAME=${RAMDONNAME}'.local' # Generates ramdon site name
+	echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> .env
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"
 fi
@@ -27,9 +29,11 @@ fi
 if [[ ! -v LOCALSITEFOLDER ]]; then
     echo "LOCALSITEFOLDER is not set"
 	LOCALSITEFOLDER=${RAMDONNAME}
+	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> .env
 elif [[ -z "$LOCALSITEFOLDER" ]]; then
     echo "LOCALSITEFOLDER is set to the empty string"
 	LOCALSITEFOLDER=${RAMDONNAME}
+	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> .env
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
