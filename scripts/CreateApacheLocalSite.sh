@@ -70,8 +70,6 @@ else
     echo "LOCALSITEDIR has the value: $LOCALSITEDIR"
 fi
 
-
-
 # Verify if folder exists
 if [[ -d "$LOCALSITEDIR" ]]; then
 	echo "$LOCALSITEDIR exists on your filesystem."
