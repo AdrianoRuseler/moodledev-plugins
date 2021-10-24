@@ -5,30 +5,46 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-datastr=$(date) # Generates datastr
-echo "" >> .env
-echo "# ----- $datastr -----" >> .env
-
-
 # Verify for LOCALSITENAME
 if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set"
-        exit 1
+	echo "Choose site to use:"
+	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITEFOLDER="
+    exit 1
 elif [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is set to the empty string"
-        exit 1
+	echo "Choose site to use:"
+	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITEFOLDER="
+    exit 1
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
 
+ENVFILE='.'${LOCALSITENAME}'.env'
+if [ -f $ENVFILE ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' $ENVFILE | xargs)
+	echo ""
+	echo "##------------ $ENVFILE -----------------##"
+	cat $ENVFILE
+	echo "##------------ $ENVFILE -----------------##"
+	echo ""
+#	rm $ENVFILE
+fi
+
+datastr=$(date) # Generates datastr
+echo "" >> $ENVFILE
+echo "# ----- $datastr -----" >> $ENVFILE
 
 # Verify for MDLHOME
 if [[ ! -v MDLHOME ]]; then
     echo "MDLHOME is not set"
-        exit 1
+    exit 1
 elif [[ -z "$MDLHOME" ]]; then
     echo "MDLHOME is set to the empty string"
-        exit 1
+    exit 1
 else
     echo "MDLHOME has the value: $MDLHOME"	
 fi
@@ -115,11 +131,11 @@ fi
 if [[ ! -v MDLADMPASS ]]; then
     echo "MDLADMPASS is not set"
         MDLADMPASS=$(pwgen -Bcny 8 1)
-		echo "MDLADMPASS=\"$MDLADMPASS\"" >> .env	
+		echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
 elif [[ -z "$MDLADMPASS" ]]; then
     echo "MDLADMPASS is set to the empty string"
         MDLADMPASS=$(pwgen -Bcny 8 1)
-		echo "MDLADMPASS=\"$MDLADMPASS\"" >> .env	
+		echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
 else
     echo "MDLADMPASS has the value: $MDLADMPASS"	
 fi
@@ -178,3 +194,8 @@ echo ""
 echo "##------------------------------------------------##"
 echo ""
 
+cd ~
+echo ""
+echo "##------------ $ENVFILE -----------------##"
+cat $ENVFILE
+echo "##------------ $ENVFILE -----------------##"
