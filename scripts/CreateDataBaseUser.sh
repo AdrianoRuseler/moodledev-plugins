@@ -15,11 +15,6 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-datastr=$(date) # Generates datastr
-echo "" >> .env
-echo "# ----- $datastr -----" >> .env
-
-
 # If /root/.my.cnf exists then it won't ask for root password
 if [ -f /root/.my.cnf ]; then
    echo "/root/.my.cnf exists"
@@ -46,6 +41,7 @@ else
 	fi
 fi
 
+
 # Verify for LOCALSITENAME
 if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set"
@@ -57,6 +53,12 @@ else
     echo "LOCALSITEURL has the value: $LOCALSITEURL"
 	DBNAME=$LOCALSITENAME	
 fi
+
+datastr=$(date) # Generates datastr
+ENVFILE='.'${DBNAME}'.env'
+echo "" >> $ENVFILE
+echo "# ----- $datastr -----" >> $ENVFILE
+
 
 echo ""
 echo "##---------------------- GENERATES NEW DB -------------------------##"
@@ -72,11 +74,11 @@ echo "DB Pass: $DBPASS"
 echo ""
 
 # Save Environment Variables
-echo "" >> .env
-echo "# DataBase credentials" >> .env
-echo "DBNAME=\"$DBNAME\"" >> .env
-echo "DBUSER=\"$DBUSER\"" >> .env
-echo "DBPASS=\"$DBPASS\"" >> .env	
+echo "" >> $ENVFILE
+echo "# DataBase credentials" >> $ENVFILE
+echo "DBNAME=\"$DBNAME\"" >> $ENVFILE
+echo "DBUSER=\"$DBUSER\"" >> $ENVFILE
+echo "DBPASS=\"$DBPASS\"" >> $ENVFILE
 
 # If /root/.my.cnf exists then it won't ask for root password
 if [ -f /root/.my.cnf ]; then
