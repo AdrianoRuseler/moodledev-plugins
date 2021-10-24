@@ -14,12 +14,7 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-datastr=$(date) # Generates datastr
-echo "" >> .env
-echo "# ----- $datastr -----" >> .env
-
 # RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
-
 RAMDONNAME=$(pwgen 8 -sv1A0) # Generates ramdon name
 
 if [[ ! -v LOCALSITENAME ]]; then
@@ -31,16 +26,21 @@ elif [[ -z "$LOCALSITENAME" ]]; then
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
-echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> .env
+
+datastr=$(date) # Generates datastr
+ENVFILE='.'${LOCALSITENAME}'.env'
+echo "" >> $ENVFILE
+echo "# ----- $datastr -----" >> $ENVFILE
+echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> $ENVFILE
 
 if [[ ! -v LOCALSITEURL ]]; then
     echo "LOCALSITEURL is not set"
 	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
-	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> .env
+	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
 elif [[ -z "$LOCALSITEURL" ]]; then
     echo "LOCALSITEURL is set to the empty string"
 	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
-	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> .env
+	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
 else
     echo "LOCALSITEURL has the value: $LOCALSITEURL"
 fi
@@ -49,11 +49,11 @@ fi
 if [[ ! -v LOCALSITEFOLDER ]]; then
     echo "LOCALSITEFOLDER is not set"
 	LOCALSITEFOLDER=${LOCALSITENAME}
-	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> .env
+	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> $ENVFILE
 elif [[ -z "$LOCALSITEFOLDER" ]]; then
     echo "LOCALSITEFOLDER is set to the empty string"
 	LOCALSITEFOLDER=${LOCALSITENAME}
-	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> .env
+	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> $ENVFILE
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
