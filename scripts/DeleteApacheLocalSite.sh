@@ -36,6 +36,7 @@ if [ -f $ENVFILE ]; then
 	echo "##------------ $ENVFILE -----------------##"
 	cat $ENVFILE
 	echo "##------------ $ENVFILE -----------------##"
+	echo ""
 #	rm $ENVFILE
 fi
 
@@ -66,6 +67,7 @@ if [ -f /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf ]; then
 	echo "Site Found!"
 else
 	echo "Site not found!"
+	echo "rm $ENVFILE # Remove env file"
 	exit 1
 fi
 
