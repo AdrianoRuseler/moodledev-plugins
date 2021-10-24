@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Set web server (apache)
+# export LOCALSITENAME="lpftnf"
 # export LOCALSITEURL="lpftnf.local"
 # export LOCALSITEFOLDER="lpftnf"
 # export LOCALSITEDIR="/var/www/html/lpftnf"
@@ -20,6 +21,14 @@ elif [[ -z "$LOCALSITENAME" ]]; then
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"
 fi
+
+ENVFILE='.'${LOCALSITENAME}'.env'
+if [ -f $ENVFILE ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' $ENVFILE | xargs)
+	cat $ENVFILE
+fi
+
 
 if [[ ! -v LOCALSITEURL ]]; then
     echo "LOCALSITEURL is not set"
