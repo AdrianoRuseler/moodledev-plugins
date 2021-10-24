@@ -94,6 +94,3 @@ rm -rf /tmp/mdlcore
 chmod 740 $MDLHOME/admin/cli/cron.php
 chown www-data:www-data -R $MDLHOME
 chown www-data:www-data -R $MDLDATA
-
-
-
