@@ -58,14 +58,25 @@ else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
 
-echo ""
-echo "LOCALSITEURL has the value: $LOCALSITEURL"
-echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
+if [[ ! -v LOCALSITEDIR ]]; then
+    echo "LOCALSITEDIR is not set"
+	LOCALSITEDIR='/var/www/html/'${LOCALSITENAME} # Site folder location
+	echo "LOCALSITEDIR=\"$LOCALSITEDIR\"" >> $ENVFILE
+elif [[ -z "$LOCALSITEDIR" ]]; then
+    echo "LOCALSITEDIR is set to the empty string"
+	LOCALSITEDIR='/var/www/html/'${LOCALSITENAME} # Site folder location
+	echo "LOCALSITEDIR=\"$LOCALSITEDIR\"" >> $ENVFILE
+else
+    echo "LOCALSITEDIR has the value: $LOCALSITEDIR"
+fi
+
+
 
 # Verify if folder exists
-if [[ -d "$LOCALSITEFOLDER" ]]; then
-	echo "$LOCALSITEFOLDER exists on your filesystem."
-	exit 1
+if [[ -d "$LOCALSITEDIR" ]]; then
+	echo "$LOCALSITEDIR exists on your filesystem."
+    
+	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
 else
     echo "$LOCALSITEFOLDER NOT exists on your filesystem."
 fi
@@ -80,11 +91,11 @@ openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /et
   printf "[dn]\nCN='${LOCALSITEURL}$'\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:'${LOCALSITEURL}$'\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
   
 # create site folder
-mkdir /var/www/html/${LOCALSITEFOLDER}
+mkdir ${LOCALSITEDIR}
 
 # populate site folder with index.php and phpinfo
-touch /var/www/html/${LOCALSITEFOLDER}/index.php
-echo '<?php  phpinfo(); ?>' >> /var/www/html/${LOCALSITEFOLDER}/index.php
+touch ${LOCALSITEDIR}/index.php
+echo '<?php  phpinfo(); ?>' >> ${LOCALSITEDIR}/index.php
 
 # Change site folder and name
 sed -i 's/\/var\/www\/html/\/var\/www\/html\/'${LOCALSITEFOLDER}$'/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
