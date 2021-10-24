@@ -17,7 +17,7 @@ wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scr
 chmod a+x DropMDL.sh
 
 rm GetMDL.sh
-wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/DropMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/GetMDL.sh
 chmod a+x GetMDL.sh
 
 rm InstallMDL.sh
