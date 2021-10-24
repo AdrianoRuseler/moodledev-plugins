@@ -134,9 +134,12 @@ echo "echo $IP4STR $LOCALSITEURL >> %WINDIR%\System32\drivers\etc\hosts"
 echo ""
 echo "##------------ NEW SITE URL -----------------##"
 echo ""
-
 echo "https://$LOCALSITEURL"
+echo ""
+echo "##------------ NEW SITE URL -----------------##"
 
 echo ""
-echo "##-------------------------------------------##"
+echo "##------------ $ENVFILE -----------------##"
+cat $ENVFILE
+echo "##------------ $ENVFILE -----------------##"
 echo ""
