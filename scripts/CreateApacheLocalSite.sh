@@ -75,8 +75,7 @@ fi
 # Verify if folder exists
 if [[ -d "$LOCALSITEDIR" ]]; then
 	echo "$LOCALSITEDIR exists on your filesystem."
-    
-	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
+    exit 1
 else
     echo "$LOCALSITEFOLDER NOT exists on your filesystem."
 fi
