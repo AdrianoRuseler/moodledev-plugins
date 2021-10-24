@@ -16,11 +16,13 @@ if [[ ! -v LOCALSITENAME ]]; then
     echo "LOCALSITENAME is not set!"
 	echo "Choose site to disable:"
 	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITENAME="
 	exit 1
 elif [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is set to the empty string!"
 	echo "Choose site to disable:"
 	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITENAME="
 	exit 1
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"
