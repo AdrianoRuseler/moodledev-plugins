@@ -32,7 +32,10 @@ ENVFILE='.'${LOCALSITENAME}'.env'
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
+	echo ""
+	echo "##------------ $ENVFILE -----------------##"
 	cat $ENVFILE
+	echo "##------------ $ENVFILE -----------------##"
 #	rm $ENVFILE
 fi
 
@@ -58,6 +61,13 @@ else
 fi
 
 # systemctl status apache2.service --no-pager --lines=2
+
+if [ -f /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf ]; then
+	echo "Site Found!"
+else
+	echo "Site not found!"
+	exit 1
+fi
 
 # Enable site
 sudo a2dissite ${LOCALSITEURL}-ssl.conf
