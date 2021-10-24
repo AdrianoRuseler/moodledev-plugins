@@ -5,10 +5,6 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-datastr=$(date) # Generates datastr
-echo "" >> .env
-echo "# ----- $datastr -----" >> .env
-
 # Verify for LOCALSITEFOLDER
 if [[ ! -v LOCALSITEFOLDER ]]; then
     echo "LOCALSITEFOLDER is not set"
@@ -18,11 +14,28 @@ elif [[ -z "$LOCALSITEFOLDER" ]]; then
         exit 1
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
-	MDLDATA="/var/www/data/$LOCALSITEFOLDER"
-	echo "MDLDATA=\"$MDLDATA\"" >> .env
-    MDLHOME="/var/www/html/$LOCALSITEFOLDER"
-	echo "MDLHOME=\"$MDLHOME\"" >> .env
 fi
+
+
+ENVFILE='.'${LOCALSITEFOLDER}'.env'
+if [ -f $ENVFILE ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' $ENVFILE | xargs)
+	echo ""
+	echo "##------------ $ENVFILE -----------------##"
+	cat $ENVFILE
+	echo "##------------ $ENVFILE -----------------##"
+	echo ""
+fi
+
+datastr=$(date) # Generates datastr
+echo "" >> $ENVFILE
+echo "# ----- $datastr -----" >> $ENVFILE
+
+MDLDATA="/var/www/data/$LOCALSITEFOLDER"
+echo "MDLDATA=\"$MDLDATA\"" >> $ENVFILE
+MDLHOME="/var/www/html/$LOCALSITEFOLDER"
+echo "MDLHOME=\"$MDLHOME\"" >> $ENVFILE
 
 # Verify if folder exists
 if [[ -d "$MDLHOME" ]]; then
@@ -61,11 +74,11 @@ fi
 if [[ ! -v MDLBRANCH ]]; then
     echo "MDLBRANCH is not set"
 	MDLBRANCH='master' # Set to master
-	echo "MDLBRANCH=\"$MDLBRANCH\"" >> .env
+	echo "MDLBRANCH=\"$MDLBRANCH\"" >> $ENVFILE
 elif [[ -z "$MDLBRANCH" ]]; then
     echo "MDLBRANCH is set to the empty string"
 	MDLBRANCH='master' # Set to master
-	echo "MDLBRANCH=\"$MDLBRANCH\"" >> .env
+	echo "MDLBRANCH=\"$MDLBRANCH\"" >> $ENVFILE
 else
     echo "MDLBRANCH has the value: $MDLBRANCH"
 fi
@@ -74,11 +87,11 @@ fi
 if [[ ! -v MDLREPO ]]; then
     echo "MDLREPO is not set"
 	MDLREPO='https://github.com/moodle/moodle.git' # Set to master
-	echo "MDLREPO=\"$MDLREPO\"" >> .env
+	echo "MDLREPO=\"$MDLREPO\"" >> $ENVFILE
 elif [[ -z "$MDLREPO" ]]; then
     echo "MDLREPO is set to the empty string"
 	MDLBRANCH='https://github.com/moodle/moodle.git' # Set to master
-	echo "MDLREPO=\"$MDLREPO\"" >> .env
+	echo "MDLREPO=\"$MDLREPO\"" >> $ENVFILE
 else
     echo "MDLREPO has the value: $MDLREPO"
 fi
@@ -94,3 +107,9 @@ rm -rf /tmp/mdlcore
 chmod 740 $MDLHOME/admin/cli/cron.php
 chown www-data:www-data -R $MDLHOME
 chown www-data:www-data -R $MDLDATA
+
+
+echo ""
+echo "##------------ $ENVFILE -----------------##"
+cat $ENVFILE
+echo "##------------ $ENVFILE -----------------##"
