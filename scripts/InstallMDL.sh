@@ -34,6 +34,16 @@ if [ -f $ENVFILE ]; then
 #	rm $ENVFILE
 fi
 
+if [[ ! -v LOCALSITEURL ]]; then
+    echo "LOCALSITEURL is not set"
+	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
+elif [[ -z "$LOCALSITEURL" ]]; then
+    echo "LOCALSITEURL is set to the empty string"
+	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
+else
+    echo "LOCALSITEURL has the value: $LOCALSITEURL"
+fi
+
 datastr=$(date) # Generates datastr
 echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
@@ -164,7 +174,7 @@ wget $MDLCONFIGDISTFILE -O $MDLCONFIGFILE
 sed -i 's/mydbname/'"$DBNAME"'/' $MDLCONFIGFILE # Configure DB Name
 sed -i 's/mydbuser/'"$DBUSER"'/' $MDLCONFIGFILE # Configure DB user
 sed -i 's/mydbpass/'"$DBPASS"'/' $MDLCONFIGFILE # Configure DB password
-sed -i 's/mysiteurl/https:\/\/'"$LOCALSITENAME"'/' $MDLCONFIGFILE # Configure url
+sed -i 's/mysiteurl/https:\/\/'"$LOCALSITEURL"'/' $MDLCONFIGFILE # Configure url
 sed -i 's/mydatafolder/'"${MDLDATA##*/}"'/' $MDLCONFIGFILE # Configure Moodle Data directory
 
 
@@ -188,7 +198,7 @@ echo ""
 echo "##----------- NEW MOODLE SITE URL ----------------##"
 echo ""
 
-echo "https://$LOCALSITENAME"
+echo "https://$LOCALSITEURL"
 
 echo ""
 echo "##------------------------------------------------##"
