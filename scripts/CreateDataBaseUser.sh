@@ -95,7 +95,9 @@ else
 fi
 
 
-
-
-
+echo ""
+echo "##------------ $ENVFILE -----------------##"
+cat $ENVFILE
+echo "##------------ $ENVFILE -----------------##"
+echo ""
 
