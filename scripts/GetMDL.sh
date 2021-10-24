@@ -8,10 +8,16 @@ fi
 # Verify for LOCALSITEFOLDER
 if [[ ! -v LOCALSITEFOLDER ]]; then
     echo "LOCALSITEFOLDER is not set"
+	echo "Choose site to disable:"
+	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITENAME="
         exit 1
 elif [[ -z "$LOCALSITEFOLDER" ]]; then
     echo "LOCALSITEFOLDER is set to the empty string"
-        exit 1
+	echo "Choose site to disable:"
+	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITENAME="
+    exit 1
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
 fi
