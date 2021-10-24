@@ -68,6 +68,9 @@ if [ -f /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf ]; then
 else
 	echo "Site not found!"
 	echo "rm $ENVFILE # Remove env file"
+	echo "Choose site to disable:"
+	ls /etc/apache2/sites-enabled/
+	echo "export LOCALSITENAME="
 	exit 1
 fi
 
