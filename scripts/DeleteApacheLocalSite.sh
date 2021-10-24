@@ -13,10 +13,14 @@ if [ -f .env ]; then
 fi
 
 if [[ ! -v LOCALSITENAME ]]; then
-    echo "LOCALSITENAME is not set"
+    echo "LOCALSITENAME is not set!"
+	echo "Choose site to disable:"
+	ls /etc/apache2/sites-enabled/
 	exit 1
 elif [[ -z "$LOCALSITENAME" ]]; then
-    echo "LOCALSITENAME is set to the empty string"
+    echo "LOCALSITENAME is set to the empty string!"
+	echo "Choose site to disable:"
+	ls /etc/apache2/sites-enabled/
 	exit 1
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"
@@ -27,6 +31,7 @@ if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
 	cat $ENVFILE
+#	rm $ENVFILE
 fi
 
 
@@ -49,7 +54,6 @@ elif [[ -z "$LOCALSITEFOLDER" ]]; then
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
-
 
 # systemctl status apache2.service --no-pager --lines=2
 
