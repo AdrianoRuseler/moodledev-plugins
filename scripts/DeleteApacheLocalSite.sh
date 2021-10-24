@@ -11,22 +11,32 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
+if [[ ! -v LOCALSITENAME ]]; then
+    echo "LOCALSITENAME is not set"
+	exit 1
+elif [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is set to the empty string"
+	exit 1
+else
+    echo "LOCALSITENAME has the value: $LOCALSITENAME"
+fi
+
 if [[ ! -v LOCALSITEURL ]]; then
     echo "LOCALSITEURL is not set"
-        exit 1
+    LOCALSITEURL=${LOCALSITENAME}'.local'
 elif [[ -z "$LOCALSITEURL" ]]; then
     echo "LOCALSITEURL is set to the empty string"
-        exit 1
+     LOCALSITEURL=${LOCALSITENAME}'.local'
 else
     echo "LOCALSITEURL has the value: $LOCALSITEURL"
 fi
 
 if [[ ! -v LOCALSITEFOLDER ]]; then
     echo "LOCALSITEFOLDER is not set"
-        exit 1
+     LOCALSITEFOLDER=${LOCALSITENAME}
 elif [[ -z "$LOCALSITEFOLDER" ]]; then
     echo "LOCALSITEFOLDER is set to the empty string"
-        exit 1
+     LOCALSITEFOLDER=${LOCALSITENAME}
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
@@ -43,6 +53,7 @@ rm /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf /etc/ssl/certs/${LOCALS
 
 # Remove folder
 rm -rf /var/www/html/${LOCALSITEFOLDER}
+# rm -rf /var/www/data/${LOCALSITEFOLDER}
 
 echo ""
 echo "##------------ status apache2.service -----------------##"
