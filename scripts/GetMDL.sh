@@ -6,15 +6,9 @@ if [ -f .env ]; then
 fi
 
 # Verify for LOCALSITENAME
-if [[ ! -v LOCALSITENAME ]]; then
-    echo "LOCALSITENAME is not set"
+if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is not set or is set to the empty string"
     echo "Choose site to use:"
-	ls /etc/apache2/sites-enabled/
-	echo "export LOCALSITENAME="
-    exit 1
-elif [[ -z "$LOCALSITENAME" ]]; then
-    echo "LOCALSITENAME is set to the empty string"
-	echo "Choose site to use:"
 	ls /etc/apache2/sites-enabled/
 	echo "export LOCALSITENAME="
     exit 1
@@ -34,11 +28,8 @@ if [ -f $ENVFILE ]; then
 fi
 
 # Verify for LOCALSITEFOLDER
-if [[ ! -v LOCALSITEFOLDER ]]; then
-    echo "LOCALSITENAME is not set"
-    exit 1
-elif [[ -z "$LOCALSITEFOLDER" ]]; then
-    echo "LOCALSITEFOLDER is set to the empty string"
+if [[ ! -v LOCALSITEFOLDER ]] || [[ -z "$LOCALSITEFOLDER" ]]; then
+    echo "LOCALSITENAME is not set or is set to the empty string"
     exit 1
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
@@ -87,12 +78,8 @@ fi
 
 # export MDLBRANCH="MOODLE_311_STABLE"
 # Verify for Moodle Branch
-if [[ ! -v MDLBRANCH ]]; then
-    echo "MDLBRANCH is not set"
-	MDLBRANCH='master' # Set to master
-	echo "MDLBRANCH=\"$MDLBRANCH\"" >> $ENVFILE
-elif [[ -z "$MDLBRANCH" ]]; then
-    echo "MDLBRANCH is set to the empty string"
+if [[ ! -v MDLBRANCH ]] || [[ -z "$MDLBRANCH" ]]; then
+    echo "MDLBRANCH is not set or is set to the empty string"
 	MDLBRANCH='master' # Set to master
 	echo "MDLBRANCH=\"$MDLBRANCH\"" >> $ENVFILE
 else
@@ -100,13 +87,9 @@ else
 fi
 
 # Verify for Moodle Repository
-if [[ ! -v MDLREPO ]]; then
-    echo "MDLREPO is not set"
+if [[ ! -v MDLREPO ]] || [[ -z "$MDLREPO" ]]; then
+    echo "MDLREPO is not set or is set to the empty string"
 	MDLREPO='https://github.com/moodle/moodle.git' # Set to master
-	echo "MDLREPO=\"$MDLREPO\"" >> $ENVFILE
-elif [[ -z "$MDLREPO" ]]; then
-    echo "MDLREPO is set to the empty string"
-	MDLBRANCH='https://github.com/moodle/moodle.git' # Set to master
 	echo "MDLREPO=\"$MDLREPO\"" >> $ENVFILE
 else
     echo "MDLREPO has the value: $MDLREPO"
