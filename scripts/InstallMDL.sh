@@ -140,16 +140,15 @@ fi
 # Verify for MDLADMPASS
 if [[ ! -v MDLADMPASS ]]; then
     echo "MDLADMPASS is not set"
-        MDLADMPASS=$(pwgen -Bcny 8 1)
-		echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
+    MDLADMPASS=$(pwgen -Bcny 8 1)
+	echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
 elif [[ -z "$MDLADMPASS" ]]; then
     echo "MDLADMPASS is set to the empty string"
-        MDLADMPASS=$(pwgen -Bcny 8 1)
-		echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
+	MDLADMPASS=$(pwgen -Bcny 8 1)
+	echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
 else
     echo "MDLADMPASS has the value: $MDLADMPASS"	
 fi
-
 
 # cat $MDLHOME/config.php
  
@@ -157,16 +156,19 @@ fi
 if [[ ! -v MDLCONFIGDISTFILE ]]; then
     echo "MDLCONFIGDISTFILE is not set"
 	MDLCONFIGDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/config-dist.php"
+	echo "MDLCONFIGDISTFILE=\"$MDLCONFIGDISTFILE\"" >> $ENVFILE
     #    exit 1
 elif [[ -z "$MDLCONFIGDISTFILE" ]]; then
     echo "MDLCONFIGDISTFILE is set to the empty string"
 	MDLCONFIGDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/config-dist.php"
+	echo "MDLCONFIGDISTFILE=\"$MDLCONFIGDISTFILE\"" >> $ENVFILE
      #   exit 1
 else
     echo "MDLCONFIGDISTFILE has the value: $MDLCONFIGDISTFILE"	
 fi
  
 MDLCONFIGFILE="$MDLHOME/config.php"
+echo "MDLCONFIGFILE=\"$MDLCONFIGFILE\"" >> $ENVFILE
  
 # Copy moodle config file
 wget $MDLCONFIGDISTFILE -O $MDLCONFIGFILE
@@ -177,14 +179,29 @@ sed -i 's/mydbpass/'"$DBPASS"'/' $MDLCONFIGFILE # Configure DB password
 sed -i 's/mysiteurl/https:\/\/'"$LOCALSITEURL"'/' $MDLCONFIGFILE # Configure url
 sed -i 's/mydatafolder/'"${MDLDATA##*/}"'/' $MDLCONFIGFILE # Configure Moodle Data directory
 
+ # Verify for MDLCONFIGDISTFILE
+if [[ ! -v MDLDEFAULTSDISTFILE ]]; then
+    echo "MDLDEFAULTSDISTFILE is not set"
+	MDLDEFAULTSDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/defaults-dist.php"
+	echo "MDLDEFAULTSDISTFILE=\"$MDLDEFAULTSDISTFILE\"" >> $ENVFILE
+    #    exit 1
+elif [[ -z "$MDLDEFAULTSDISTFILE" ]]; then
+    echo "MDLDEFAULTSDISTFILE is set to the empty string"
+	MDLDEFAULTSDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/defaults-dist.php"
+	echo "MDLDEFAULTSDISTFILE=\"$MDLDEFAULTSDISTFILE\"" >> $ENVFILE
+     #   exit 1
+else
+    echo "MDLDEFAULTSDISTFILE has the value: $MDLDEFAULTSDISTFILE"	
+fi
 
-MDLDEFAULTSDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/defaults-dist.php"
 MDLDEFAULTSFILE="$MDLHOME/local/defaults.php"
+echo "MDLDEFAULTSFILE=\"$MDLDEFAULTSFILE\"" >> $ENVFILE
+
  # Copy moodle defaults file
 wget $MDLDEFAULTSDISTFILE -O $MDLDEFAULTSFILE
 sed -i 's/myadmpass/'"$MDLADMPASS"'/' $MDLDEFAULTSFILE # Set password in file
 
-MDLADMEMAIL="admin@mail.local"
+MDLADMEMAIL='admin@'$LOCALSITEURL
 mdlver=$(cat $MDLHOME/version.php | grep '$release' | cut -d\' -f 2) # Gets Moodle Version
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=pt_br --adminpass=$MDLADMPASS --agree-license --adminemail=$MDLADMEMAIL --fullname="Moodle $mdlver" --shortname="Moodle $mdlver"
 
