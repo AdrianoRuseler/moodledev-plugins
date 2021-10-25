@@ -23,13 +23,13 @@ else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
 
-
 datastr=$(date) # Generates datastr
 ENVFILE='.'${LOCALSITENAME}'.env'
 echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
 echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> $ENVFILE
 
+# Verify for LOCALSITEURL
 if [[ ! -v LOCALSITEURL ]] || [[ -z "$LOCALSITEURL" ]]; then
     echo "LOCALSITEURL is not set or is set to the empty string"
 	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
@@ -38,7 +38,7 @@ else
     echo "LOCALSITEURL has the value: $LOCALSITEURL"
 fi
 
-
+# Verify for LOCALSITEFOLDER
 if [[ ! -v LOCALSITEFOLDER ]] || [[ -z "$LOCALSITEFOLDER" ]]; then
     echo "LOCALSITEFOLDER is not set or is set to the empty string"
 	LOCALSITEFOLDER=${LOCALSITENAME}
@@ -47,6 +47,7 @@ else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
 
+# Verify for LOCALSITEDIR
 if [[ ! -v LOCALSITEDIR ]] || [[ -z "$LOCALSITEDIR" ]]; then
     echo "LOCALSITEDIR is not set or is set to the empty string"
 	LOCALSITEDIR='/var/www/html/'${LOCALSITENAME} # Site folder location
@@ -96,18 +97,12 @@ sudo a2ensite ${LOCALSITEURL}-ssl.conf
 sudo systemctl reload apache2
 
 echo ""
-echo "##------------ status apache2.service -----------------##"
+echo "##------------ SITES ENABLED -----------------##"
 echo ""
-systemctl status apache2.service --no-pager --lines=2
-
-# List Apache Virtual Host Configurations
-echo ""
-echo "##-------- List Apache Virtual Host Configurations -------------##"
-echo ""
-apache2ctl -S
+ls /etc/apache2/sites-enabled/
 
 echo ""
-echo "##------------ LOCAL DNS SERVICE CONFIGURATION -----------------##"
+echo "##---- LOCAL DNS SERVICE CONFIGURATION ------##"
 echo ""
 
 IP4STR=$(ip -4 addr show enp0s3 | grep -oP "(?<=inet ).*(?=/)")
