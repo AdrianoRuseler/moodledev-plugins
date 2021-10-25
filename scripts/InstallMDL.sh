@@ -6,18 +6,11 @@ if [ -f .env ]; then
 fi
 
 # Verify for LOCALSITENAME
-if [[ ! -v LOCALSITENAME ]]; then
-    echo "LOCALSITENAME is not set"
+if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is not set or is set to the empty string!"
 	echo "Choose site to use:"
 	ls /etc/apache2/sites-enabled/
 	echo "export LOCALSITEFOLDER="
-    exit 1
-elif [[ -z "$LOCALSITENAME" ]]; then
-    echo "LOCALSITENAME is set to the empty string"
-	echo "Choose site to use:"
-	ls /etc/apache2/sites-enabled/
-	echo "export LOCALSITEFOLDER="
-    exit 1
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
@@ -34,11 +27,8 @@ if [ -f $ENVFILE ]; then
 #	rm $ENVFILE
 fi
 
-if [[ ! -v LOCALSITEURL ]]; then
-    echo "LOCALSITEURL is not set"
-	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
-elif [[ -z "$LOCALSITEURL" ]]; then
-    echo "LOCALSITEURL is set to the empty string"
+if [[ ! -v LOCALSITEURL ]] || [[ -z "$LOCALSITEURL" ]]; then
+    echo "LOCALSITEURL is not set or is set to the empty string!"
 	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
 else
     echo "LOCALSITEURL has the value: $LOCALSITEURL"
@@ -60,11 +50,8 @@ else
 fi
 
 # Verify for MDLDATA
-if [[ ! -v MDLDATA ]]; then
-    echo "MDLDATA is not set"
-        exit 1
-elif [[ -z "$MDLDATA" ]]; then
-    echo "MDLDATA is set to the empty string"
+if [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
+    echo "MDLDATA is not set or is set to the empty string!"
         exit 1
 else
     echo "MDLDATA has the value: $MDLDATA"	
@@ -88,34 +75,25 @@ fi
 
 
 # Verify for DBNAME
-if [[ ! -v DBNAME ]]; then
-    echo "DBNAME is not set"
-        exit 1
-elif [[ -z "$DBNAME" ]]; then
-    echo "DBNAME is set to the empty string"
-        exit 1
+if [[ ! -v DBNAME ]] || [[ -z "$DBNAME" ]] then
+    echo "DBNAMEis not set or is set to the empty string!"
+    exit 1
 else
     echo "DBNAME has the value: $DBNAME"	
 fi
 
 # Verify for DBUSER
-if [[ ! -v DBUSER ]]; then
-    echo "DBUSER is not set"
-        exit 1
-elif [[ -z "$DBUSER" ]]; then
-    echo "DBUSER is set to the empty string"
-        exit 1
+if [[ ! -v DBUSER ]] || [[ -z "$DBUSER" ]]; then
+    echo "DBUSER is not set or is set to the empty string!"
+    exit 1
 else
     echo "DBUSER has the value: $DBUSER"	
 fi
 
 # Verify for DBPASS
-if [[ ! -v DBPASS ]]; then
-    echo "DBPASS is not set"
-        exit 1
-elif [[ -z "$DBPASS" ]]; then
-    echo "DBPASS is set to the empty string"
-        exit 1
+if [[ ! -v DBPASS ]] || [[ -z "$DBPASS" ]]; then
+    echo "DBPASS is not set or is set to the empty string!"
+    exit 1
 else
     echo "DBPASS has the value: $DBPASS"	
 fi
@@ -138,13 +116,9 @@ fi
 # The password must have at least 8 characters, at least 1 digit(s), at least 1 lower case letter(s), at least 1 upper case letter(s), at least 1 non-alphanumeric character(s) such as as *, -, or # 
 
 # Verify for MDLADMPASS
-if [[ ! -v MDLADMPASS ]]; then
-    echo "MDLADMPASS is not set"
+if [[ ! -v MDLADMPASS ]] || [[ -z "$MDLADMPASS" ]]; then
+    echo "MDLADMPASS is not set or is set to the empty string!"
     MDLADMPASS=$(pwgen -Bcny 8 1)
-	echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
-elif [[ -z "$MDLADMPASS" ]]; then
-    echo "MDLADMPASS is set to the empty string"
-	MDLADMPASS=$(pwgen -Bcny 8 1)
 	echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
 else
     echo "MDLADMPASS has the value: $MDLADMPASS"	
@@ -153,16 +127,10 @@ fi
 # cat $MDLHOME/config.php
  
  # Verify for MDLCONFIGDISTFILE
-if [[ ! -v MDLCONFIGDISTFILE ]]; then
-    echo "MDLCONFIGDISTFILE is not set"
+if [[ ! -v MDLCONFIGDISTFILE ]] || [[ -z "$MDLCONFIGDISTFILE" ]]; then
+    echo "MDLCONFIGDISTFILE is not set or is set to the empty string!"
 	MDLCONFIGDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/config-dist.php"
 	echo "MDLCONFIGDISTFILE=\"$MDLCONFIGDISTFILE\"" >> $ENVFILE
-    #    exit 1
-elif [[ -z "$MDLCONFIGDISTFILE" ]]; then
-    echo "MDLCONFIGDISTFILE is set to the empty string"
-	MDLCONFIGDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/config-dist.php"
-	echo "MDLCONFIGDISTFILE=\"$MDLCONFIGDISTFILE\"" >> $ENVFILE
-     #   exit 1
 else
     echo "MDLCONFIGDISTFILE has the value: $MDLCONFIGDISTFILE"	
 fi
@@ -180,16 +148,10 @@ sed -i 's/mysiteurl/https:\/\/'"$LOCALSITEURL"'/' $MDLCONFIGFILE # Configure url
 sed -i 's/mydatafolder/'"${MDLDATA##*/}"'/' $MDLCONFIGFILE # Configure Moodle Data directory
 
  # Verify for MDLCONFIGDISTFILE
-if [[ ! -v MDLDEFAULTSDISTFILE ]]; then
-    echo "MDLDEFAULTSDISTFILE is not set"
+if [[ ! -v MDLDEFAULTSDISTFILE ]] || [[ -z "$MDLDEFAULTSDISTFILE" ]]; then
+    echo "MDLDEFAULTSDISTFILE is not set or is set to the empty string!"
 	MDLDEFAULTSDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/defaults-dist.php"
 	echo "MDLDEFAULTSDISTFILE=\"$MDLDEFAULTSDISTFILE\"" >> $ENVFILE
-    #    exit 1
-elif [[ -z "$MDLDEFAULTSDISTFILE" ]]; then
-    echo "MDLDEFAULTSDISTFILE is set to the empty string"
-	MDLDEFAULTSDISTFILE="https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/config/defaults-dist.php"
-	echo "MDLDEFAULTSDISTFILE=\"$MDLDEFAULTSDISTFILE\"" >> $ENVFILE
-     #   exit 1
 else
     echo "MDLDEFAULTSDISTFILE has the value: $MDLDEFAULTSDISTFILE"	
 fi
