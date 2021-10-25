@@ -5,25 +5,24 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-# Verify for LOCALSITEFOLDER
-if [[ ! -v LOCALSITEFOLDER ]]; then
-    echo "LOCALSITEFOLDER is not set"
+# Verify for LOCALSITENAME
+if [[ ! -v LOCALSITENAME ]]; then
+    echo "LOCALSITENAME is not set"
     echo "Choose site to use:"
 	ls /etc/apache2/sites-enabled/
-	echo "export LOCALSITEFOLDER="
+	echo "export LOCALSITENAME="
     exit 1
-elif [[ -z "$LOCALSITEFOLDER" ]]; then
-    echo "LOCALSITEFOLDER is set to the empty string"
+elif [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is set to the empty string"
 	echo "Choose site to use:"
 	ls /etc/apache2/sites-enabled/
-	echo "export LOCALSITEFOLDER="
+	echo "export LOCALSITENAME="
     exit 1
 else
-    echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
+    echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
 
-
-ENVFILE='.'${LOCALSITEFOLDER}'.env'
+ENVFILE='.'${LOCALSITENAME}'.env'
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
@@ -32,6 +31,17 @@ if [ -f $ENVFILE ]; then
 	cat $ENVFILE
 	echo "##------------ $ENVFILE -----------------##"
 	echo ""
+fi
+
+# Verify for LOCALSITEFOLDER
+if [[ ! -v LOCALSITEFOLDER ]]; then
+    echo "LOCALSITENAME is not set"
+    exit 1
+elif [[ -z "$LOCALSITEFOLDER" ]]; then
+    echo "LOCALSITEFOLDER is set to the empty string"
+    exit 1
+else
+    echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
 fi
 
 datastr=$(date) # Generates datastr
