@@ -35,7 +35,10 @@ $CFG->disableupdatenotifications = true;
 // potentially cause a security risk. Set this option to true to disable editing
 // those config settings via the web. They will need to be set explicitly in the
 // config.php file
-// $CFG->preventexecpath = true;
+$CFG->preventexecpath = true;
+
+// Force result of checks used to determine whether a site is considered "public" or not (such as for site registration).
+$CFG->site_is_public = false;
 
 require_once(__DIR__ . '/lib/setup.php');
 
