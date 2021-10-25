@@ -14,18 +14,15 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-# RAMDONNAME=$(pwgen -s 6 -1 -v -A -0) # Generates ramdon name
-RAMDONNAME=$(pwgen 8 -sv1A0) # Generates ramdon name
-
-if [[ ! -v LOCALSITENAME ]]; then
-    echo "LOCALSITENAME is not set"
-	LOCALSITENAME=${RAMDONNAME} # Generates ramdon site name
-elif [[ -z "$LOCALSITENAME" ]]; then
-    echo "LOCALSITENAME is set to the empty string"
+# Verify for LOCALSITENAME
+if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is not set or is set to the empty string"
+	RAMDONNAME=$(pwgen 8 -sv1A0) # Generates ramdon name
 	LOCALSITENAME=${RAMDONNAME} # Generates ramdon site name
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
+
 
 datastr=$(date) # Generates datastr
 ENVFILE='.'${LOCALSITENAME}'.env'
@@ -33,12 +30,8 @@ echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
 echo "LOCALSITENAME=\"$LOCALSITENAME\"" >> $ENVFILE
 
-if [[ ! -v LOCALSITEURL ]]; then
-    echo "LOCALSITEURL is not set"
-	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
-	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
-elif [[ -z "$LOCALSITEURL" ]]; then
-    echo "LOCALSITEURL is set to the empty string"
+if [[ ! -v LOCALSITEURL ]] || [[ -z "$LOCALSITEURL" ]]; then
+    echo "LOCALSITEURL is not set or is set to the empty string"
 	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
 	echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
 else
@@ -46,24 +39,16 @@ else
 fi
 
 
-if [[ ! -v LOCALSITEFOLDER ]]; then
-    echo "LOCALSITEFOLDER is not set"
-	LOCALSITEFOLDER=${LOCALSITENAME}
-	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> $ENVFILE
-elif [[ -z "$LOCALSITEFOLDER" ]]; then
-    echo "LOCALSITEFOLDER is set to the empty string"
+if [[ ! -v LOCALSITEFOLDER ]] || [[ -z "$LOCALSITEFOLDER" ]]; then
+    echo "LOCALSITEFOLDER is not set or is set to the empty string"
 	LOCALSITEFOLDER=${LOCALSITENAME}
 	echo "LOCALSITEFOLDER=\"$LOCALSITEFOLDER\"" >> $ENVFILE
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 fi
 
-if [[ ! -v LOCALSITEDIR ]]; then
-    echo "LOCALSITEDIR is not set"
-	LOCALSITEDIR='/var/www/html/'${LOCALSITENAME} # Site folder location
-	echo "LOCALSITEDIR=\"$LOCALSITEDIR\"" >> $ENVFILE
-elif [[ -z "$LOCALSITEDIR" ]]; then
-    echo "LOCALSITEDIR is set to the empty string"
+if [[ ! -v LOCALSITEDIR ]] || [[ -z "$LOCALSITEDIR" ]]; then
+    echo "LOCALSITEDIR is not set or is set to the empty string"
 	LOCALSITEDIR='/var/www/html/'${LOCALSITENAME} # Site folder location
 	echo "LOCALSITEDIR=\"$LOCALSITEDIR\"" >> $ENVFILE
 else
