@@ -23,3 +23,7 @@ chmod a+x GetMDL.sh
 rm InstallMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/InstallMDL.sh
 chmod a+x InstallMDL.sh
+
+rm ConfigMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/ConfigMDL.sh
+chmod a+x ConfigMDL.sh
