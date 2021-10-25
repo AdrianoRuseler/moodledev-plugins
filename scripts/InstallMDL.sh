@@ -39,11 +39,8 @@ echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
 
 # Verify for MDLHOME
-if [[ ! -v MDLHOME ]]; then
-    echo "MDLHOME is not set"
-    exit 1
-elif [[ -z "$MDLHOME" ]]; then
-    echo "MDLHOME is set to the empty string"
+if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]]; then
+    echo "MDLHOME is not set or is set to the empty string!"
     exit 1
 else
     echo "MDLHOME has the value: $MDLHOME"	
