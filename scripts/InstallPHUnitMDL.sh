@@ -63,6 +63,8 @@ else
 	exit 1
 fi
 
+chown www-data:www-data -R $MDLHOME
+
 datastr=$(date) # Generates datastr
 echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
@@ -91,20 +93,19 @@ echo "PHPUNITDBPASS=\"$PHPUNITDBPASS\"" >> $ENVFILE
 if [[ ! -v PHPUNITDATA ]] || [[ -z "$PHPUNITDATA" ]]; then
     echo "PHPUNITDATA is not set or is set to the empty string!"
 	PHPUNITDATA=/var/www/data/phpunit/${LOCALSITENAME}
+	mkdir '/var/www/data/phpunit'
 	mkdir $PHPUNITDATA
 	echo "PHPUNITDATA=\"$PHPUNITDATA\"" >> $ENVFILE
 else
     echo "PHPUNITDATA has the value: $PHPUNITDATA"	
 fi
 
-chown www-data:www-data -R $PHPUNITDATA
+chown www-data:www-data -R /var/www/data/phpunit
 
 # Verify for PHPUNITPREFIX
 if [[ ! -v PHPUNITPREFIX ]] || [[ -z "$PHPUNITPREFIX" ]]; then
     echo "PHPUNITPREFIX is not set or is set to the empty string!"
 	PHPUNITPREFIX=phpu_
-	mkdir '/var/www/data/phpunit'
-	mkdir $PHPUNITPREFIX
 	echo "PHPUNITPREFIX=\"$PHPUNITPREFIX\"" >> $ENVFILE
 else
     echo "PHPUNITPREFIX has the value: $PHPUNITPREFIX"	
