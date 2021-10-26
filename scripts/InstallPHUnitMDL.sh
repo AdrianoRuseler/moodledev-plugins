@@ -73,7 +73,8 @@ echo ""
 echo "##---------------------- GENERATES PHPUNIT DB -------------------------##"
 echo ""
 
-PHPUNITDBNAME=$(pwgen 10 -s1vA0) # Generates ramdon user name
+# PHPUNITDBNAME=$(pwgen 10 -s1vA0) # Generates ramdon user name
+PHPUNITDBNAME=${LOCALSITENAME}'_phpu'
 PHPUNITDBUSER=$PHPUNITDBNAME # Use same generated ramdon user name
 PHPUNITDBPASS=$(pwgen -s 14 1) # Generates ramdon password for db user
 # DBPASS="$(openssl rand -base64 12)"
