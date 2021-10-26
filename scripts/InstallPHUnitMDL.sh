@@ -47,13 +47,12 @@ else
 fi
 
 # Verify for MDLHOME and folder
-if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ -d "$MDLHOME" ]]; then
-    echo "MDLHOME is not set or is set to the empty string or NOT exists on your filesystem!"
+if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]]; then
+    echo "MDLHOME is not set or is set to the empty string!"
     exit 1
 else
     echo "MDLHOME has the value: $MDLHOME"	
 fi
-
 
 # Verify for config.php file
 if [[ -f "$MDLHOME/config.php" ]]; then
