@@ -30,7 +30,7 @@ fi
 # Verify for LOCALSITENAME
 if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is not set or is set to the empty string!"
-	DBNAME=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon db name
+	DBNAME=$(pwgen 10 -s1vA0) # Generates ramdon db name
 fi
 
 datastr=$(date) # Generates datastr
