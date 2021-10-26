@@ -95,7 +95,7 @@ if [ -f /root/.my.cnf ]; then
 # If /root/.my.cnf doesn't exist then it'll ask for password   
 else
     mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP DATABASE ${DBNAME};"
-    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP USER ${DBUSER};"
+    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP USER ${DBUSER}@localhost;"
 fi
 
 # Verify for MDLHOME and MDLDATA
