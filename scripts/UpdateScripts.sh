@@ -31,3 +31,7 @@ chmod a+x ConfigMDL.sh
 rm InstallPHUnitMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/InstallPHUnitMDL.sh
 chmod a+x InstallPHUnitMDL.sh
+
+rm FixMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/FixMDL.sh
+chmod a+x FixMDL.sh
