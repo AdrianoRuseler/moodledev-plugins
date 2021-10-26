@@ -89,6 +89,14 @@ echo "PHPUNITDBNAME=\"$PHPUNITDBNAME\"" >> $ENVFILE
 echo "PHPUNITDBUSER=\"$PHPUNITDBUSER\"" >> $ENVFILE
 echo "PHPUNITDBPASS=\"$PHPUNITDBPASS\"" >> $ENVFILE
 
+# If /root/.my.cnf exists then it won't ask for root password
+if [ -f /root/.my.cnf ]; then
+    mysql -e "CREATE DATABASE ${PHPUNITDBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+    mysql -e "CREATE USER ${PHPUNITDBUSER}@localhost IDENTIFIED BY '${PHPUNITDBPASS}';"
+    mysql -e "GRANT ALL PRIVILEGES ON ${PHPUNITDBNAME}.* TO '${PHPUNITDBUSER}'@'localhost';"
+    mysql -e "FLUSH PRIVILEGES;"
+fi
+
 # Verify for PHPUNITDATA
 if [[ ! -v PHPUNITDATA ]] || [[ -z "$PHPUNITDATA" ]]; then
     echo "PHPUNITDATA is not set or is set to the empty string!"
