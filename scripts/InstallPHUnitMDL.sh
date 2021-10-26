@@ -69,6 +69,7 @@ if [[ ! -v PHPUNITDATA ]] || [[ -z "$PHPUNITDATA" ]]; then
     echo "PHPUNITDATA is not set or is set to the empty string!"
 	PHPUNITDATA=/var/www/data/phpunit/${LOCALSITENAME}
 	mkdir $PHPUNITDATA
+	chown www-data:www-data -R $PHPUNITDATA
 	echo "PHPUNITDATA=\"$PHPUNITDATA\"" >> $ENVFILE
 else
     echo "PHPUNITDATA has the value: $PHPUNITDATA"	
@@ -98,11 +99,11 @@ sudo -u www-data composer -V
 cd $MDLHOME
 sudo -u www-data composer install
 
-echo "Initialise the test environment..."
-sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/phpunit/cli/init.php
-
 sed -i '/require_once*/i $CFG->phpunit_dataroot = \x27'$PHPUNITDATA'\x27;' $MDLCONFIGFILE # Single quote \x27
 sed -i '/require_once*/i $CFG->phpunit_prefix = \x27'$PHPUNITPREFIX'\x27;\n' $MDLCONFIGFILE # Single quote \x27
+
+echo "Initialise the test environment..."
+sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/phpunit/cli/init.php
 
 cd ~
 echo ""
