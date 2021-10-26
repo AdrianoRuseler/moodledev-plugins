@@ -38,61 +38,32 @@ datastr=$(date) # Generates datastr
 echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
 
-# Verify for MDLHOME
-if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]]; then
-    echo "MDLHOME is not set or is set to the empty string!"
+# Verify for MDLHOME and MDLDATA
+if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
+    echo "MDLHOME or MDLDATA is not set or is set to the empty string!"
     exit 1
 else
     echo "MDLHOME has the value: $MDLHOME"	
-fi
-
-# Verify for MDLDATA
-if [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
-    echo "MDLDATA is not set or is set to the empty string!"
-        exit 1
-else
-    echo "MDLDATA has the value: $MDLDATA"	
+	echo "MDLDATA has the value: $MDLDATA"
 fi
 
 # Verify if folder exists
-if [[ -d "$MDLHOME" ]]; then
-	echo "$MDLHOME exists on your filesystem."
+if [[ -d "$MDLHOME" ]] && [[ -d "$MDLDATA" ]]; then
+	echo "$MDLHOME and $MDLDATA exists on your filesystem."
 else
-    echo "$MDLHOME NOT exists on your filesystem."
-	exit 1
-fi
-
-# Verify if folder exists
-if [[ -d "$MDLDATA" ]]; then
-	echo "$MDLDATA exists on your filesystem."
-else
-    echo "$MDLDATA NOT exists on your filesystem."
+    echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
 	exit 1
 fi
 
 
-# Verify for DBNAME
-if [[ ! -v DBNAME ]] || [[ -z "$DBNAME" ]] then
-    echo "DBNAMEis not set or is set to the empty string!"
+# Verify for DB Credentials
+if [[ ! -v DBNAME ]] || [[ -z "$DBNAME" ]] || [[ ! -v DBUSER ]] || [[ -z "$DBUSER" ]] || [[ ! -v DBPASS ]] || [[ -z "$DBPASS" ]]; then
+    echo "DB credentials are not set or some are set to the empty string!"
     exit 1
 else
     echo "DBNAME has the value: $DBNAME"	
-fi
-
-# Verify for DBUSER
-if [[ ! -v DBUSER ]] || [[ -z "$DBUSER" ]]; then
-    echo "DBUSER is not set or is set to the empty string!"
-    exit 1
-else
-    echo "DBUSER has the value: $DBUSER"	
-fi
-
-# Verify for DBPASS
-if [[ ! -v DBPASS ]] || [[ -z "$DBPASS" ]]; then
-    echo "DBPASS is not set or is set to the empty string!"
-    exit 1
-else
-    echo "DBPASS has the value: $DBPASS"	
+	echo "DBUSER has the value: $DBUSER"
+	echo "DBPASS has the value: $DBPASS"
 fi
 
 # Fix permissions
