@@ -121,10 +121,10 @@ fi
 
 sed -i '/require_once*/i $CFG->phpunit_dbtype    = \x27mariadb\x27;' $MDLCONFIGFILE # Single quote \x27
 sed -i '/require_once*/i $CFG->phpunit_dblibrary = \x27native\x27;' $MDLCONFIGFILE # Single quote \x27
-sed -i '/require_once*/i $CFG->phpunit_dbhost    = \x27127.0.0.1\x27;' $MDLCONFIGFILE # Single quote \x27
+sed -i '/require_once*/i $CFG->phpunit_dbhost    = \x27localhost\x27;' $MDLCONFIGFILE # Single quote \x27
 sed -i '/require_once*/i $CFG->phpunit_dbname = \x27'$PHPUNITDBNAME'\x27;' $MDLCONFIGFILE # Single quote \x27
 sed -i '/require_once*/i $CFG->phpunit_dbuser = \x27'$PHPUNITDBUSER'\x27;' $MDLCONFIGFILE # Single quote \x27
-sed -i '/require_once*/i $CFG->phpunit_dbpass = \x27'$PHPUNITDBUSER'\x27;\n' $PHPUNITDBPASS # Single quote \x27
+sed -i '/require_once*/i $CFG->phpunit_dbpass = \x27'$PHPUNITDBPASS'\x27;\n' $MDLCONFIGFILE # Single quote \x27
 
 sed -i '/require_once*/i $CFG->phpunit_dataroot = \x27'$PHPUNITDATA'\x27;' $MDLCONFIGFILE # Single quote \x27
 sed -i '/require_once*/i $CFG->phpunit_prefix = \x27'$PHPUNITPREFIX'\x27;\n' $MDLCONFIGFILE # Single quote \x27
