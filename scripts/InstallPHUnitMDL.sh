@@ -98,6 +98,9 @@ sudo -u www-data composer -V
 cd $MDLHOME
 sudo -u www-data composer install
 
+echo "Initialise the test environment..."
+sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/phpunit/cli/init.php
+
 sed -i '/require_once*/i $CFG->phpunit_dataroot = \x27'$PHPUNITDATA'\x27;' config-dist.php # Single quote \x27
 sed -i '/require_once*/i $CFG->phpunit_prefix = \x27'$PHPUNITPREFIX'\x27;\n' config-dist.php # Single quote \x27
 
