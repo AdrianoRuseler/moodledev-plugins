@@ -142,6 +142,9 @@ sudo -u www-data composer install
 echo "Initialise the test environment..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/phpunit/cli/init.php
 
+echo "Let´s run some test:"
+vendor/bin/phpunit --testsuite core_favourites_testsuite
+
 cd ~
 echo ""
 echo "##------------ $ENVFILE -----------------##"
@@ -155,4 +158,8 @@ echo "##------------ $ENVFILE -----------------##"
 # vendor/bin/phpunit --testsuite core_phpunit_testsuite
 
 # https://docs.moodle.org/dev/PHPUnit
+
+
+
+
 
