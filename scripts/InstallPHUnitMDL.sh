@@ -110,3 +110,6 @@ echo ""
 echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
 echo "##------------ $ENVFILE -----------------##"
+
+#To execute all test suites from main configuration file execute the
+# vendor/bin/phpunit
