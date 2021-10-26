@@ -103,6 +103,7 @@ chown www-data:www-data -R $PHPUNITDATA
 if [[ ! -v PHPUNITPREFIX ]] || [[ -z "$PHPUNITPREFIX" ]]; then
     echo "PHPUNITPREFIX is not set or is set to the empty string!"
 	PHPUNITPREFIX=phpu_
+	mkdir '/var/www/data/phpunit'
 	mkdir $PHPUNITPREFIX
 	echo "PHPUNITPREFIX=\"$PHPUNITPREFIX\"" >> $ENVFILE
 else
