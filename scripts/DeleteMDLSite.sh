@@ -75,9 +75,8 @@ if [ -f /root/.my.cnf ]; then
    echo "/root/.my.cnf exists"
 # If /root/.my.cnf doesn't exist then it'll ask for password   
 else
-	if [[ ! -v ADMDBUSER ]] || [[ -z "$ADMDBUSER" ]] || [[ ! -v ADMDBPASS ]] || [[ -z "$ADMDBPASS" ]]; then
-		echo "ADMDBUSER or ADMDBPASS is not set or is set to the empty string!"
-	fi
+	echo "Create file /root/.my.cnf with credentials!"
+	exit 1
 fi
 
 # Verify for DB Credentials
@@ -86,16 +85,19 @@ if [[ ! -v DBNAME ]] || [[ -z "$DBNAME" ]] || [[ ! -v DBUSER ]] || [[ -z "$DBUSE
 else
     echo "DBNAME has the value: $DBNAME"	
 	echo "DBUSER has the value: $DBUSER"
+	mysql -e "DROP DATABASE ${DBNAME};"
+	mysql -e "DROP USER ${DBUSER}@localhost;"
 fi
 
-# If /root/.my.cnf exists then it won't ask for root password
-if [ -f /root/.my.cnf ]; then
-    mysql -e "DROP DATABASE ${DBNAME};"
-    mysql -e "DROP USER ${DBUSER}@localhost;"
-# If /root/.my.cnf doesn't exist then it'll ask for password   
+
+# Verify for PHPUnit DB Credentials
+if [[ ! -v PHPUNITDBNAME ]] || [[ -z "$PHPUNITDBNAME" ]] || [[ ! -v PHPUNITDBUSER ]] || [[ -z "$PHPUNITDBUSER" ]]; then
+    echo "PHPUnit DB credentials are not set or some are set to the empty string!"
 else
-    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP DATABASE ${DBNAME};"
-    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP USER ${DBUSER}@localhost;"
+    echo "PHPUNITDBNAME has the value: $PHPUNITDBNAME"	
+	echo "PHPUNITDBUSER has the value: $PHPUNITDBUSER"
+	mysql -e "DROP DATABASE ${PHPUNITDBNAME};"
+	mysql -e "DROP USER ${PHPUNITDBUSER}@localhost;"
 fi
 
 # Verify for MDLHOME and MDLDATA
@@ -104,17 +106,30 @@ if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ ! -v MDLDATA ]] || [[ -z "$MD
 else
     echo "MDLHOME has the value: $MDLHOME"	
 	echo "MDLDATA has the value: $MDLDATA"
-
+	# Verify if folder exists
+	if [[ -d "$MDLHOME" ]] || [[ -d "$MDLDATA" ]]; then
+		echo "$MDLHOME and $MDLDATA exists on your filesystem."
+		# Remove folder
+		rm -rf $MDLHOME
+		rm -rf $MDLDATA
+	else
+		echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
+	fi
 fi
 
-# Verify if folder exists
-if [[ -d "$MDLHOME" ]] || [[ -d "$MDLDATA" ]]; then
-	echo "$MDLHOME and $MDLDATA exists on your filesystem."
-	# Remove folder
-	rm -rf $MDLHOME
-	rm -rf $MDLDATA
+# Verify for PHPUNITDATA 
+if [[ ! -v PHPUNITDATA ]] || [[ -z "$PHPUNITDATA" ]]; then
+    echo "PHPUNITDATA is not set or is set to the empty string!"
 else
-    echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
+    echo "PHPUNITDATA has the value: $PHPUNITDATA"	
+	# Verify if folder exists
+	if [[ -d "$PHPUNITDATA" ]]; then
+		echo "$PHPUNITDATA exists on your filesystem."
+		# Remove folder
+		rm -rf $PHPUNITDATA
+	else
+		echo "$PHPUNITDATA NOT exists on your filesystem."
+	fi
 fi
 
 
