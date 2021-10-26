@@ -20,38 +20,17 @@ if [ -f /root/.my.cnf ]; then
    echo "/root/.my.cnf exists"
 # If /root/.my.cnf doesn't exist then it'll ask for password   
 else
-	if [[ ! -v ADMDBUSER ]]; then
-		echo "ADMDBUSER is not set"
-			exit 1
-	elif [[ -z "$ADMDBUSER" ]]; then
-		echo "ADMDBUSER is set to the empty string"
-			exit 1
-	else
-		echo "ADMDBUSER was set"
-	fi
-
-	if [[ ! -v ADMDBPASS ]]; then
-		echo "ADMDBPASS is not set"
-			exit 1
-	elif [[ -z "$ADMDBPASS" ]]; then
-		echo "ADMDBPASS is set to the empty string"
-			exit 1
-	else
-		echo "ADMDBPASS was set"
+	if [[ ! -v ADMDBUSER ]] || [[ -z "$ADMDBUSER" ]] || [[ ! -v ADMDBPASS ]] || [[ -z "$ADMDBPASS" ]]; then
+		echo "ADMDBUSER or ADMDBPASS is not set or is set to the empty string!"
+		exit 1
 	fi
 fi
 
 
 # Verify for LOCALSITENAME
-if [[ ! -v LOCALSITENAME ]]; then
-    echo "LOCALSITENAME is not set"
+if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
+    echo "LOCALSITENAME is not set or is set to the empty string!"
 	DBNAME=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon db name
-elif [[ -z "$LOCALSITENAME" ]]; then
-    echo "LOCALSITENAME is set to the empty string"
-	DBNAME=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon db name
-else
-    echo "LOCALSITEURL has the value: $LOCALSITEURL"
-	DBNAME=$LOCALSITENAME	
 fi
 
 datastr=$(date) # Generates datastr
