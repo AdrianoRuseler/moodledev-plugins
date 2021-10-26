@@ -35,3 +35,7 @@ chmod a+x InstallPHUnitMDL.sh
 rm FixMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/FixMDL.sh
 chmod a+x FixMDL.sh
+
+rm DeleteMDLSite.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/DeleteMDLSite.sh
+chmod a+x DeleteMDLSite.sh
