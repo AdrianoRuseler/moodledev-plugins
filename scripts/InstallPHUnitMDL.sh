@@ -99,9 +99,6 @@ else
 fi
 
 chown www-data:www-data -R $PHPUNITDATA
- 
-# add $CFG->phpunit_prefix = 'phpu_'; to your config.php file
-# and $CFG->phpunit_dataroot = '/path/to/phpunitdataroot'; to your config.php file
 
 # Verify for PHPUNITPREFIX
 if [[ ! -v PHPUNITPREFIX ]] || [[ -z "$PHPUNITPREFIX" ]]; then
