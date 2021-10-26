@@ -86,7 +86,7 @@ fi
 # Verify for MDLADMPASS
 if [[ ! -v MDLADMPASS ]] || [[ -z "$MDLADMPASS" ]]; then
     echo "MDLADMPASS is not set or is set to the empty string!"
-    MDLADMPASS=$(pwgen -Bcny 8 1)
+    MDLADMPASS=$(pwgen 12 -s1v)
 	echo "MDLADMPASS=\"$MDLADMPASS\"" >> $ENVFILE
 else
     echo "MDLADMPASS has the value: $MDLADMPASS"	
