@@ -5,7 +5,10 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-# export LOCALSITEFOLDER=integration
+# export LOCALSITENAME=integration
+# export MDLBRANCH="master"
+# export MDLREPO="https://git.in.moodle.com/moodle/integration.git"
+
 # Verify for LOCALSITENAME
 if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is not set or is set to the empty string!"
@@ -96,6 +99,7 @@ DAY=$(date +\%Y-\%m-\%d-\%H.\%M)
 
 echo "Moving old files ..."
 sudo mv $MDLHOME $MDLHOME.$DAY.tmpbkp
+mkdir $MDLHOME
 
 echo "moving new files..."
 sudo mv /tmp/mdlcore/* $MDLHOME
@@ -116,7 +120,7 @@ if [[ $? -ne 0 ]]; then # Error in upgrade script
   if [ -d "$MDLHOME.$DAY.tmpbkp" ]; then # If exists
     echo "restoring old files..."
     sudo rm -rf $MDLHOME                      # Remove new files
-    sudo mv $MDLHOME.$MDLHOME.tmpbkp $MDLHOME # restore old files
+    sudo mv $MDLHOME.$DAY.tmpbkp $MDLHOME # restore old files
   fi
   echo "Disable the maintenance mode..."
   sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
