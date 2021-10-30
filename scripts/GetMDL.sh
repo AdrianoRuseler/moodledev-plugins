@@ -77,6 +77,7 @@ else
 fi
 
 # export MDLBRANCH="MOODLE_311_STABLE"
+# export MDLREPO="https://github.com/moodle/moodle.git"
 # Verify for Moodle Branch
 if [[ ! -v MDLBRANCH ]] || [[ -z "$MDLBRANCH" ]]; then
     echo "MDLBRANCH is not set or is set to the empty string"
@@ -95,9 +96,10 @@ else
     echo "MDLREPO has the value: $MDLREPO"
 fi
 
+
 # Clone git repository
 cd /tmp
-git clone --depth=1 --branch=$MDLBRANCH https://github.com/moodle/moodle.git mdlcore
+git clone --depth=1 --branch=$MDLBRANCH $MDLREPO mdlcore
 
 mv /tmp/mdlcore/* $MDLHOME
 rm -rf /tmp/mdlcore
