@@ -5,7 +5,7 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-#export LOCALSITEFOLDER=integration
+# export LOCALSITEFOLDER=integration
 # Verify for LOCALSITENAME
 if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is not set or is set to the empty string!"
