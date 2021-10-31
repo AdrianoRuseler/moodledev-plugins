@@ -134,5 +134,11 @@ fi
 echo "Removing temporary backup files..."
 sudo rm -rf $MOODLE_HOME.$DAY.tmpbkp
 
+echo "Update Moodle site name:"
+cd $MDLHOME
+mdlrelease=$(moosh -n config-get core release)
+moosh -n course-config-set course 1 fullname "Moodle $mdlrelease"
+moosh -n course-config-set course 1 shortname "Moodle $mdlrelease"
+
 echo "Disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
