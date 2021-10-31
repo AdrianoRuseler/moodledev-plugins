@@ -111,7 +111,10 @@ sudo cp $MDLHOME.$DAY.tmpbkp/config.php $MDLHOME
 
 echo "fixing file permissions..."
 sudo chmod 740 $MDLHOME/admin/cli/cron.php
-sudo chown www-data:www-data -R $MDLHOME
+sudo chown -R root $MDLHOME
+sudo chmod -R 0755 $MDLHOME
+
+
 
 echo "Upgrading Moodle Core started..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/upgrade.php --non-interactive --allow-unstable
