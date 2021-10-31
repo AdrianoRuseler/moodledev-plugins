@@ -124,8 +124,13 @@ wget $MDLDEFAULTSDISTFILE -O $MDLDEFAULTSFILE
 sed -i 's/myadmpass/'"$MDLADMPASS"'/' $MDLDEFAULTSFILE # Set password in file
 
 MDLADMEMAIL='admin@'$LOCALSITEURL
+MDLLANG="en"
+
+echo "MDLADMEMAIL=\"$MDLADMEMAIL\"" >> $ENVFILE
+echo "MDLLANG=\"$MDLLANG\"" >> $ENVFILE
+
 mdlver=$(cat $MDLHOME/version.php | grep '$release' | cut -d\' -f 2) # Gets Moodle Version
-sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=pt_br --adminpass=$MDLADMPASS --agree-license --adminemail=$MDLADMEMAIL --fullname="Moodle $mdlver" --shortname="Moodle $mdlver"
+sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=$MDLLANG --adminpass=$MDLADMPASS --agree-license --adminemail=$MDLADMEMAIL --fullname="Moodle $mdlver" --shortname="Moodle $mdlver"
 
 # Add cron for moodle - Shows: no crontab for root
 (crontab -l | grep . ; echo -e "*/1 * * * * /usr/bin/php  $MDLHOME/admin/cli/cron.php >/dev/null\n") | crontab -
