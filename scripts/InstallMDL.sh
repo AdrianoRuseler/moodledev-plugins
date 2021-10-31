@@ -68,8 +68,9 @@ fi
 
 # Fix permissions
 chmod 740 $MDLHOME/admin/cli/cron.php
-chown www-data:www-data -R $MDLHOME
 chown www-data:www-data -R $MDLDATA
+sudo chown -R root $MDLHOME
+sudo chmod -R 0755 $MDLHOME
 
 
 # Create config.php file
