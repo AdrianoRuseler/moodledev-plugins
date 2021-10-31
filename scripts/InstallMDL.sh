@@ -132,6 +132,8 @@ echo "MDLLANG=\"$MDLLANG\"" >> $ENVFILE
 mdlver=$(cat $MDLHOME/version.php | grep '$release' | cut -d\' -f 2) # Gets Moodle Version
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=$MDLLANG --adminpass=$MDLADMPASS --agree-license --adminemail=$MDLADMEMAIL --fullname="Moodle $mdlver" --shortname="Moodle $mdlver"
 
+# Config Moodle
+sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/cfg.php --name=allowthemechangeonurl --set=1
 # Add cron for moodle - Shows: no crontab for root
 (crontab -l | grep . ; echo -e "*/1 * * * * /usr/bin/php  $MDLHOME/admin/cli/cron.php >/dev/null\n") | crontab -
 
