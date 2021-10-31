@@ -1,9 +1,8 @@
 <?php
 $defaults['moodle']['summary'] = 'Moodle Site! '; // for core settings
-$defaults['moodle']['custommenuitems'] = 'Tema
+$defaults['moodle']['custommenuitems'] = 'Theme
 -Boost | ?theme=boost
 -Classic | ?theme=classic
-Criação de curso | /course/request.php
 ';
 
 $defaults['moodle']['timezone'] = 'America/Sao_Paulo';
