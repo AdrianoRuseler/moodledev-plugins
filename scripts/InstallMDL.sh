@@ -73,15 +73,6 @@ sudo chown -R root $MDLHOME
 sudo chmod -R 0755 $MDLHOME
 
 
-# Create config.php file
-if [[ -f "$MDLHOME/config.php" ]]; then
-    echo "$MDLHOME/config.php exists."
-else
-	echo "$MDLHOME/config.php NOT exists."
-fi
-
-# https://docs.moodle.org/311/en/Environment_-_max_input_vars
-
 # The password must have at least 8 characters, at least 1 digit(s), at least 1 lower case letter(s), at least 1 upper case letter(s), at least 1 non-alphanumeric character(s) such as as *, -, or # 
 
 # Verify for MDLADMPASS
