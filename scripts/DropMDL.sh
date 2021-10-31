@@ -15,6 +15,17 @@ else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
 
+ENVFILE='.'${LOCALSITENAME}'.env'
+if [ -f $ENVFILE ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' $ENVFILE | xargs)
+	echo ""
+	echo "##------------ $ENVFILE -----------------##"
+	cat $ENVFILE
+	echo "##------------ $ENVFILE -----------------##"
+	echo ""
+#	rm $ENVFILE
+fi
 
 # Verify for MDLHOME and MDLDATA
 if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
@@ -42,7 +53,6 @@ else
     echo "$MDLDATA NOT exists on your filesystem."
 	exit 1
 fi
-
 
 # Verify for DB Credentials
 if [[ ! -v DBNAME ]] || [[ -z "$DBNAME" ]] || [[ ! -v DBUSER ]] || [[ -z "$DBUSER" ]] || [[ ! -v DBPASS ]] || [[ -z "$DBPASS" ]]; then
