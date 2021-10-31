@@ -26,10 +26,20 @@ else
 fi
 
 # Verify if folder exists
-if [[ -d "$MDLHOME" ]] && [[ -d "$MDLDATA" ]]; then
-	echo "$MDLHOME and $MDLDATA exists on your filesystem."
+if [[ -d "$MDLHOME" ]]; then
+	echo "$MDLHOME exists on your filesystem."
 else
-    echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
+    echo "$MDLHOME NOT exists on your filesystem."
+	exit 1
+fi
+
+# Verify if folder exists
+if [[ -d "$MDLDATA" ]]; then
+	echo "$MDLDATA exists on your filesystem."
+	rm -rf $MDLDATA
+	mkdir $MDLDATA
+else
+    echo "$MDLDATA NOT exists on your filesystem."
 	exit 1
 fi
 
