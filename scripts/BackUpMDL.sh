@@ -119,7 +119,7 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 # mysqldump integration | gzip > integration.sql.gz
 
 mysqldump $DBNAME | gzip > $DBBKPFILE
-md5sum DBBKPFILE > $DBBKPFILE.md5
+md5sum $DBBKPFILE > $DBBKPFILE.md5
 md5sum -c $DBBKPFILE.md5
 
 ls -lh $DBBKP
