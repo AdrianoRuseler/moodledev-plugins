@@ -80,13 +80,13 @@ echo "HTMLBKP=\"$HTMLBKP\"" >> $ENVFILE
 
 filename=$(date +\%Y-\%m-\%d-\%H.\%M)
 
-DBFILE=$DBBKP$filename.sql.gz
-DATAFILE=$DATABKP$filename.tar.gz
-HTMLFILE=$HTMLBKP$filename.tar.gz
+DBBKPFILE=$DBBKP$filename.sql.gz
+DATABKPFILE=$DATABKP$filename.tar.gz
+HTMLBKPFILE=$HTMLBKP$filename.tar.gz
 
-echo "DBFILE=\"$DBFILE\"" >> $ENVFILE
-echo "DATAFILE=\"$DATAFILE\"" >> $ENVFILE
-echo "HTMLFILE=\"$HTMLFILE\"" >> $ENVFILE
+echo "DBBKPFILE=\"$DBBKPFILE\"" >> $ENVFILE
+echo "DATABKPFILE=\"$DATABKPFILE\"" >> $ENVFILE
+echo "HTMLBKPFILE=\"$HTMLBKPFILE\"" >> $ENVFILE
 
 echo "Kill all user sessions..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
@@ -98,22 +98,22 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 # make database backup
 # mysqldump integration | gzip > integration.sql.gz
 
-mysqldump $DBNAME | gzip > $DBBKP$filename.sql.gz
-md5sum $DBBKP$filename.sql.gz > $DBBKP$filename.sql.gz.md5
-md5sum -c $DBBKP$filename.sql.gz.md5
+mysqldump $DBNAME | gzip > $DBBKPFILE
+md5sum DBBKPFILE > $DBBKPFILE.md5
+md5sum -c $DBBKPFILE.md5
 
 ls -lh $DBBKP
 
 # Backup the files using tar.
-tar -czf $DATABKP$filename.tar.gz $MDLDATA
-md5sum $DATABKP$filename.tar.gz > $DATABKP$filename.tar.gz.md5
-md5sum -c $DATABKP$filename.tar.gz.md5
+tar -czf $DATABKPFILE $MDLDATA
+md5sum $DATABKPFILE > $DATABKPFILE.md5
+md5sum -c $DATABKPFILE.md5
 
 ls -lh $DATABKP
 
-tar -czf $HTMLBKP$filename.tar.gz $MDLHOME
-md5sum $HTMLBKP$filename.tar.gz > $HTMLBKP$filename.tar.gz.md5
-md5sum -c $HTMLBKP$filename.tar.gz.md5
+tar -czf $HTMLBKPFILE $MDLHOME
+md5sum $HTMLBKPFILE > $HTMLBKPFILE.md5
+md5sum -c $HTMLBKPFILE.md5
 
 ls -lh $HTMLBKP
 
