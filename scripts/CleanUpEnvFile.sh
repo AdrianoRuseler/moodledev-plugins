@@ -28,7 +28,7 @@ echo "# ----- $datastr -----" >> $NEWENVFILE
 grep -v '^#' $ENVFILE | sed -n '1!G;h;$p' | awk -F "=" '!a[$1]++' | sed -n '1!G;h;$p' >> $NEWENVFILE
 
 echo "" >> $NEWENVFILE
-echo "#---------------------------------" >> $NEWENVFILE
+echo "#--------------  CleanUp -------------------" >> $NEWENVFILE
 
 
 export $(grep -v '^#' $NEWENVFILE | xargs)
@@ -38,6 +38,7 @@ if [[ -f "$DBBKPFILE" ]] && [[ -f "$DATABKPFILE" ]] && [[ -f "$HTMLBKPFILE" ]]; 
 	echo "DBBKPFILE and DATABKPFILE and HTMLBKPFILE exists on your filesystem."
 else
     echo "DBBKPFILE or DATABKPFILE or HTMLBKPFILE NOT exists on your filesystem."
+	sed -i /"DBFILE=*"/d $NEWENVFILE
 	sed -i /"DBBKPFILE=*"/d $NEWENVFILE
 	sed -i /"DATABKPFILE=*"/d $NEWENVFILE
 	sed -i /"HTMLBKPFILE=*"/d $NEWENVFILE
