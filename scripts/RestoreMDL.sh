@@ -74,7 +74,8 @@ if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $DBBKPFILE.md5"
     exit 1
 else
-	gunzip -c $DBBKPFILE > $TMPFOLDER
+	cd $TMPFOLDER
+	gunzip -c $DBBKPFILE
 fi
 
 # Verify for MDLHOME and MDLDATA
