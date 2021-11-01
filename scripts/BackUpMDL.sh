@@ -93,7 +93,7 @@ md5sum -c $DBBKP$filename.sql.gz.md5
 ls -lh $DBBKP
 
 # Backup the files using tar.
-tar -czf $DATABKP$filename.tar.gz $MOODLE_DATA
+tar -czf $DATABKP$filename.tar.gz $MDLDATA
 md5sum $DATABKP$filename.tar.gz > $DATABKP$filename.tar.gz.md5
 md5sum -c $DATABKP$filename.tar.gz.md5
 
