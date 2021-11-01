@@ -66,7 +66,7 @@ if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $HTMLBKPFILE.md5"
     exit 1
 else
-	tar xvzf $HTMLBKPFILE -C $TMPFOLDER
+	tar xvzf $HTMLBKPFILE -C $TMPFOLDER 
 fi
 
 md5sum -c $DBBKPFILE.md5
@@ -75,6 +75,7 @@ if [[ $? -ne 0 ]]; then
     exit 1
 else
 	tar xvzf $DBBKPFILE -C $TMPFOLDER
+	FILEDIR=$(dirname "$DBBKPFILE")
 fi
 
 # Verify for MDLHOME and MDLDATA
