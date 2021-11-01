@@ -64,6 +64,22 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
+# Verify for MDLHOME and MDLDATA
+if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
+    echo "MDLHOME or MDLDATA is not set or is set to the empty string!"
+    exit 1
+else
+    echo "MDLHOME has the value: $MDLHOME"	
+	echo "MDLDATA has the value: $MDLDATA"
+fi
+
+# Verify if folder exists
+if [[ -d "$MDLHOME" ]] && [[ -d "$MDLDATA" ]]; then
+	echo "$MDLHOME and $MDLDATA exists on your filesystem."
+else
+    echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
+	exit 1
+fi
 
 
 echo "Kill all user sessions..."
@@ -71,9 +87,6 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
 
 echo "Activating Moodle Maintenance Mode in..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
-
-
-
 
 
 echo "disable the maintenance mode..."
