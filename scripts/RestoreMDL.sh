@@ -126,4 +126,4 @@ echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
 
 echo "Remove tmp folders..."
-rm -rf $MDLHOME.tmpbkp $MDLDATA.tmpbkp
+rm -rf $MDLHOME.tmpbkp $MDLDATA.tmpbkp $TMPFOLDER
