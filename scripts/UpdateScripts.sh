@@ -47,3 +47,7 @@ chmod a+x BackUpMDL.sh
 rm ClearBackUpMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/ClearBackUpMDL.sh
 chmod a+x ClearBackUpMDL.sh
+
+rm RestoreMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/RestoreMDL.sh
+chmod a+x RestoreMDL.sh
