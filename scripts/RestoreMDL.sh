@@ -46,6 +46,10 @@ else
 fi
 
 TMPFOLDER=/tmp/$LOCALSITENAME
+if [[ -d "$TMPFOLDER" ]]; then
+	rm -rf $TMPFOLDER
+fi
+
 mkdir $TMPFOLDER
 
 # Verify file integrity 
@@ -70,7 +74,7 @@ if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $DBBKPFILE.md5"
     exit 1
 else
-	tar xvzf $DBBKPFILE -C $TMPFOLDER
+	gunzip -c $DBBKPFILE > $TMPFOLDER
 fi
 
 # Verify for MDLHOME and MDLDATA
