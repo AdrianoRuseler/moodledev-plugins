@@ -43,3 +43,7 @@ chmod a+x DeleteMDLSite.sh
 rm BackUpMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/BackUpMDL.sh
 chmod a+x BackUpMDL.sh
+
+rm ClearBackUpMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/ClearBackUpMDL.sh
+chmod a+x ClearBackUpMDL.sh
