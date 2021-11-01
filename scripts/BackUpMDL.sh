@@ -91,19 +91,25 @@ if [[ ! -d "$HTMLBKP" ]]; then
 	mkdir $HTMLBKP
 fi
 
+# Verify for BKPNAME -- Not set on .env file
+if [[ ! -v BKPNAME ]] || [[ -z "$BKPNAME" ]]; then
+    echo "BKPNAME is not set or is set to the empty string!"
+    BKPNAME=$(date +\%Y-\%m-\%d-\%H.\%M)
+	echo "Now BKPNAME is set to: $BKPNAME"
+else
+    echo "BKPNAME has the value: $BKPNAME"	
+fi
+
+DBFILE=$DBBKP$BKPNAME.sql
+DBBKPFILE=$DBBKP$BKPNAME.tar.gz
+DATABKPFILE=$DATABKP$BKPNAME.tar.gz
+HTMLBKPFILE=$HTMLBKP$BKPNAME.tar.gz
+
 
 echo "BKPDIR=\"$BKPDIR\"" >> $ENVFILE
 echo "DBBKP=\"$DBBKP\"" >> $ENVFILE
 echo "DATABKP=\"$DATABKP\"" >> $ENVFILE
 echo "HTMLBKP=\"$HTMLBKP\"" >> $ENVFILE
-
-
-filename=$(date +\%Y-\%m-\%d-\%H.\%M)
-
-DBFILE=$DBBKP$filename.sql
-DBBKPFILE=$DBBKP$filename.tar.gz
-DATABKPFILE=$DATABKP$filename.tar.gz
-HTMLBKPFILE=$HTMLBKP$filename.tar.gz
 
 echo "DBFILE=\"$DBFILE\"" >> $ENVFILE
 echo "DBBKPFILE=\"$DBBKPFILE\"" >> $ENVFILE
