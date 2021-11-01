@@ -39,9 +39,9 @@ fi
 
 # Verify if files exists
 if [[ -f "$DBBKPFILE" ]] && [[ -f "$DATABKPFILE" ]] && [[ -f "$HTMLBKPFILE" ]]; then
-	echo "$DBBKPFILE and $DATABKPFILE and $HTMLBKPFILE exists on your filesystem."
+	echo "DBBKPFILE and DATABKPFILE and HTMLBKPFILE exists on your filesystem."
 else
-    echo "$DBBKPFILE or $DATABKPFILE or $HTMLBKPFILE NOT exists on your filesystem."
+    echo "DBBKPFILE or DATABKPFILE or HTMLBKPFILE NOT exists on your filesystem."
 	exit 1
 fi
 
@@ -53,17 +53,12 @@ echo "Activating Moodle Maintenance Mode in..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 
 
+md5sum -c $DATABKPFILE.md5
 
+md5sum -c $HTMLBKPFILE.md5
 
-ls -lh $DBBKP
+md5sum -c $DBBKPFILE.md5
 
-
-
-ls -lh $DATABKP
-
-
-
-ls -lh $HTMLBKP
 
 echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
