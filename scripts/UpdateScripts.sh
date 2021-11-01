@@ -51,3 +51,8 @@ chmod a+x ClearBackUpMDL.sh
 rm RestoreMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/RestoreMDL.sh
 chmod a+x RestoreMDL.sh
+
+rm CleanUpEnvFile.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CleanUpEnvFile.sh
+chmod a+x CleanUpEnvFile.sh
+
