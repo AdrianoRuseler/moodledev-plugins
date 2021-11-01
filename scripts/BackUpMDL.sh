@@ -100,10 +100,12 @@ echo "HTMLBKP=\"$HTMLBKP\"" >> $ENVFILE
 
 filename=$(date +\%Y-\%m-\%d-\%H.\%M)
 
-DBBKPFILE=$DBBKP$filename.sql.gz
+DBFILE=$DBBKP$filename.sql
+DBBKPFILE=$DBBKP$filename.tar.gz
 DATABKPFILE=$DATABKP$filename.tar.gz
 HTMLBKPFILE=$HTMLBKP$filename.tar.gz
 
+echo "DBFILE=\"$DBFILE\"" >> $ENVFILE
 echo "DBBKPFILE=\"$DBBKPFILE\"" >> $ENVFILE
 echo "DATABKPFILE=\"$DATABKPFILE\"" >> $ENVFILE
 echo "HTMLBKPFILE=\"$HTMLBKPFILE\"" >> $ENVFILE
@@ -118,9 +120,11 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 # make database backup
 # mysqldump integration | gzip > integration.sql.gz
 
-mysqldump $DBNAME | gzip > $DBBKPFILE
+mysqldump $DBNAME > $DBFILE
+tar -czf $DBBKPFILE $DBFILE
 md5sum $DBBKPFILE > $DBBKPFILE.md5
 md5sum -c $DBBKPFILE.md5
+rm $DBFILE
 
 ls -lh $DBBKP
 
