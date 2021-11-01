@@ -27,6 +27,18 @@ if [ -f $ENVFILE ]; then
 #	rm $ENVFILE
 fi
 
+# Verify for BKPNAME -- Not set on .env file
+if [[ ! -v BKPNAME ]] || [[ -z "$BKPNAME" ]]; then
+    echo "BKPNAME is not set or is set to the empty string!"
+	echo "Restore lasta backup in .env file"
+else
+    echo "BKPNAME has the value: $BKPNAME"	
+	DBFILE=$DBBKP$BKPNAME.sql
+	DBBKPFILE=$DBBKP$BKPNAME.tar.gz
+	DATABKPFILE=$DATABKP$BKPNAME.tar.gz
+	HTMLBKPFILE=$HTMLBKP$BKPNAME.tar.gz
+fi
+
 # Verify for DBBKPFILE,  DATABKPFILE and HTMLBKPFILE
 if [[ ! -v DBBKPFILE ]] || [[ -z "$DBBKPFILE" ]] || [[ ! -v DATABKPFILE ]] || [[ -z "$DATABKPFILE" ]] || [[ ! -v HTMLBKPFILE ]] || [[ -z "$HTMLBKPFILE" ]]; then
     echo "DBBKPFILE or DATABKPFILE or HTMLBKPFILE is not set or is set to the empty string!"
