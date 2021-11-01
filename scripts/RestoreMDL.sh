@@ -109,10 +109,18 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 echo "Moving old files ..."
 sudo mv $MDLHOME $MDLHOME.tmpbkp
 mkdir $MDLHOME
+sudo mv $MDLDATA $MDLDATA.tmpbkp
+mkdir $MDLDATA
 
 echo "moving new files..."
 sudo mv $TMPFOLDER$MDLHOME/* $MDLHOME
+sudo mv $TMPFOLDER$MDLDATA/* $MDLDATA
 
+# Fix permissions
+chmod 740 $MDLHOME/admin/cli/cron.php
+chown www-data:www-data -R $MDLDATA
+sudo chown -R root $MDLHOME
+sudo chmod -R 0755 $MDLHOME
 
 echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
