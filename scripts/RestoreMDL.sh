@@ -100,11 +100,31 @@ fi
 ls -l $TMPFOLDER$FILEDIR
 
 
+if [[ ! -f "$TMPFOLDER$DBFILE" ]]; then
+    echo "File NOT found: $TMPFOLDER$DBFILE"
+    exit 1
+fi
+
+
+
 echo "Kill all user sessions..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
 
 echo "Activating Moodle Maintenance Mode in..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
+
+mysqldump $DBNAME > $TMPFOLDER.tmp.sql
+# If /root/.my.cnf exists then it won't ask for root password
+if [ -f /root/.my.cnf ]; then
+	mysql -e "DROP DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+    mysql -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+	mysql ${DBNAME} < $TMPFOLDER$DBFILE
+# If /root/.my.cnf doesn't exist then it'll ask for password   
+else
+    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+fi
+
 
 echo "Moving old files ..."
 sudo mv $MDLHOME $MDLHOME.tmpbkp
