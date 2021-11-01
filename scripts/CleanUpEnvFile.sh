@@ -30,6 +30,19 @@ grep -v '^#' $ENVFILE | sed -n '1!G;h;$p' | awk -F "=" '!a[$1]++' | sed -n '1!G;
 echo "" >> $NEWENVFILE
 echo "#---------------------------------" >> $NEWENVFILE
 
+
+export $(grep -v '^#' $NEWENVFILE | xargs)
+
+# Verify if files exists
+if [[ -f "$DBBKPFILE" ]] && [[ -f "$DATABKPFILE" ]] && [[ -f "$HTMLBKPFILE" ]]; then
+	echo "DBBKPFILE and DATABKPFILE and HTMLBKPFILE exists on your filesystem."
+else
+    echo "DBBKPFILE or DATABKPFILE or HTMLBKPFILE NOT exists on your filesystem."
+	sed -i /"DBBKPFILE=*"/d $NEWENVFILE
+	sed -i /"DATABKPFILE=*"/d $NEWENVFILE
+	sed -i /"HTMLBKPFILE=*"/d $NEWENVFILE
+fi
+
 mv $NEWENVFILE $ENVFILE
 
 echo ""
@@ -37,3 +50,6 @@ echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
 echo "##------------ $ENVFILE -----------------##"
 echo ""
+
+
+
