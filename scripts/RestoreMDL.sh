@@ -10,7 +10,7 @@ if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
     echo "LOCALSITENAME is not set or is set to the empty string!"
 	echo "Choose site to use:"
 	ls /etc/apache2/sites-enabled/
-	echo "export LOCALSITENAME=teste"
+	echo "export LOCALSITENAME="
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
@@ -45,23 +45,32 @@ else
 	exit 1
 fi
 
+TMPFOLDER=/tmp/$LOCALSITENAME
+mkdir $TMPFOLDER
+
 # Verify file integrity 
 md5sum -c $DATABKPFILE.md5
 if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $DATABKPFILE.md5"
     exit 1
+else
+	tar xvzf $DATABKPFILE -C $TMPFOLDER
 fi
 
 md5sum -c $HTMLBKPFILE.md5
 if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $HTMLBKPFILE.md5"
     exit 1
+else
+	tar xvzf $HTMLBKPFILE -C $TMPFOLDER
 fi
 
 md5sum -c $DBBKPFILE.md5
 if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $DBBKPFILE.md5"
     exit 1
+else
+	tar xvzf $DBBKPFILE -C $TMPFOLDER
 fi
 
 # Verify for MDLHOME and MDLDATA
@@ -80,6 +89,7 @@ else
     echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
 	exit 1
 fi
+
 
 
 echo "Kill all user sessions..."
