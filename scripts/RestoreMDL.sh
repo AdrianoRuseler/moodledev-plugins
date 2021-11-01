@@ -45,39 +45,6 @@ else
 	exit 1
 fi
 
-TMPFOLDER=/tmp/$LOCALSITENAME
-if [[ -d "$TMPFOLDER" ]]; then
-	rm -rf $TMPFOLDER
-fi
-
-mkdir $TMPFOLDER
-
-# Verify file integrity 
-md5sum -c $DATABKPFILE.md5
-if [[ $? -ne 0 ]]; then
-    echo "Error: md5sum -c $DATABKPFILE.md5"
-    exit 1
-else
-	tar xvzf $DATABKPFILE -C $TMPFOLDER
-fi
-
-md5sum -c $HTMLBKPFILE.md5
-if [[ $? -ne 0 ]]; then
-    echo "Error: md5sum -c $HTMLBKPFILE.md5"
-    exit 1
-else
-	tar xvzf $HTMLBKPFILE -C $TMPFOLDER 
-fi
-
-md5sum -c $DBBKPFILE.md5
-if [[ $? -ne 0 ]]; then
-    echo "Error: md5sum -c $DBBKPFILE.md5"
-    exit 1
-else
-	tar xvzf $DBBKPFILE -C $TMPFOLDER
-	FILEDIR=$(dirname "$DBBKPFILE")
-fi
-
 # Verify for MDLHOME and MDLDATA
 if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
     echo "MDLHOME or MDLDATA is not set or is set to the empty string!"
@@ -95,6 +62,42 @@ else
 	exit 1
 fi
 
+TMPFOLDER=/tmp/$LOCALSITENAME
+if [[ -d "$TMPFOLDER" ]]; then
+	rm -rf $TMPFOLDER
+fi
+
+mkdir $TMPFOLDER
+
+# Verify file integrity 
+md5sum -c $DATABKPFILE.md5
+if [[ $? -ne 0 ]]; then
+    echo "Error: md5sum -c $DATABKPFILE.md5"
+    exit 1
+else
+	tar xvzf $DATABKPFILE -C $TMPFOLDER
+fi
+
+ls -l $TMPFOLDER$MDLDATA
+
+md5sum -c $HTMLBKPFILE.md5
+if [[ $? -ne 0 ]]; then
+    echo "Error: md5sum -c $HTMLBKPFILE.md5"
+    exit 1
+else
+	tar xvzf $HTMLBKPFILE -C $TMPFOLDER 
+fi
+ls -l $TMPFOLDER$MDLHOME
+
+md5sum -c $DBBKPFILE.md5
+if [[ $? -ne 0 ]]; then
+    echo "Error: md5sum -c $DBBKPFILE.md5"
+    exit 1
+else
+	tar xvzf $DBBKPFILE -C $TMPFOLDER
+	FILEDIR=$(dirname "$DBBKPFILE")
+fi
+ls -l $TMPFOLDER$FILEDIR
 
 
 echo "Kill all user sessions..."
