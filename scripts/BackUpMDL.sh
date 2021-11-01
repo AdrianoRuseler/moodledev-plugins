@@ -72,7 +72,21 @@ mkdir $DATABKP
 HTMLBKP=$BKPDIR"/html/"  # moodle html backup folder
 mkdir $HTMLBKP
 
+echo "BKPDIR=\"$BKPDIR\"" >> $ENVFILE
+echo "DBBKP=\"$DBBKP\"" >> $ENVFILE
+echo "DATABKP=\"$DATABKP\"" >> $ENVFILE
+echo "HTMLBKP=\"$HTMLBKP\"" >> $ENVFILE
+
+
 filename=$(date +\%Y-\%m-\%d-\%H.\%M)
+
+DBFILE=$DBBKP$filename.sql.gz
+DATAFILE=$DATABKP$filename.tar.gz
+HTMLFILE=$HTMLBKP$filename.tar.gz
+
+echo "DBFILE=\"$DBFILE\"" >> $ENVFILE
+echo "DATAFILE=\"$DATAFILE\"" >> $ENVFILE
+echo "HTMLFILE=\"$HTMLFILE\"" >> $ENVFILE
 
 echo "Kill all user sessions..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
@@ -82,9 +96,7 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 
 
 # make database backup
-
 # mysqldump integration | gzip > integration.sql.gz
-
 
 mysqldump $DBNAME | gzip > $DBBKP$filename.sql.gz
 md5sum $DBBKP$filename.sql.gz > $DBBKP$filename.sql.gz.md5
@@ -107,8 +119,6 @@ ls -lh $HTMLBKP
 
 echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
-
-
 
 cd ~
 echo ""
