@@ -45,6 +45,26 @@ else
 	exit 1
 fi
 
+# Verify file integrity 
+md5sum -c $DATABKPFILE.md5
+if [[ $? -ne 0 ]]; then
+    echo "Error: md5sum -c $DATABKPFILE.md5"
+    exit 1
+fi
+
+md5sum -c $HTMLBKPFILE.md5
+if [[ $? -ne 0 ]]; then
+    echo "Error: md5sum -c $HTMLBKPFILE.md5"
+    exit 1
+fi
+
+md5sum -c $DBBKPFILE.md5
+if [[ $? -ne 0 ]]; then
+    echo "Error: md5sum -c $DBBKPFILE.md5"
+    exit 1
+fi
+
+
 
 echo "Kill all user sessions..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
@@ -53,11 +73,7 @@ echo "Activating Moodle Maintenance Mode in..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 
 
-md5sum -c $DATABKPFILE.md5
 
-md5sum -c $HTMLBKPFILE.md5
-
-md5sum -c $DBBKPFILE.md5
 
 
 echo "disable the maintenance mode..."
