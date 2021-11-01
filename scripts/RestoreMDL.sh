@@ -75,7 +75,7 @@ if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $DATABKPFILE.md5"
     exit 1
 else
-	tar xvzf $DATABKPFILE -C $TMPFOLDER
+	tar xzf $DATABKPFILE -C $TMPFOLDER
 fi
 
 ls -l $TMPFOLDER$MDLDATA
@@ -85,7 +85,7 @@ if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $HTMLBKPFILE.md5"
     exit 1
 else
-	tar xvzf $HTMLBKPFILE -C $TMPFOLDER 
+	tar xzf $HTMLBKPFILE -C $TMPFOLDER 
 fi
 ls -l $TMPFOLDER$MDLHOME
 
@@ -94,7 +94,7 @@ if [[ $? -ne 0 ]]; then
     echo "Error: md5sum -c $DBBKPFILE.md5"
     exit 1
 else
-	tar xvzf $DBBKPFILE -C $TMPFOLDER
+	tar xzf $DBBKPFILE -C $TMPFOLDER
 	FILEDIR=$(dirname "$DBBKPFILE")
 fi
 ls -l $TMPFOLDER$FILEDIR
@@ -105,6 +105,13 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
 
 echo "Activating Moodle Maintenance Mode in..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
+
+echo "Moving old files ..."
+sudo mv $MDLHOME $MDLHOME.tmpbkp
+mkdir $MDLHOME
+
+echo "moving new files..."
+sudo mv $TMPFOLDER$MDLHOME/* $MDLHOME
 
 
 echo "disable the maintenance mode..."
