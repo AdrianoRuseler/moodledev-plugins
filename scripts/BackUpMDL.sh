@@ -64,13 +64,33 @@ else
 fi
 
 BKPDIR="/home/ubuntu/backups/"$LOCALSITENAME  # moodle backup folder
-mkdir $BKPDIR
+# Verify if folder NOT exists
+if [[ ! -d "$BKPDIR" ]]; then
+	echo "$BKPDIR NOT exists on your filesystem."
+	mkdir $BKPDIR
+fi
+
 DBBKP=$BKPDIR"/db/" # moodle database backup folder
-mkdir $DBBKP
+# Verify if folder NOT exists
+if [[ ! -d "$DBBKP" ]]; then
+	echo "$DBBKP NOT exists on your filesystem."
+	mkdir $DBBKP
+fi
+
 DATABKP=$BKPDIR"/data/"  # moodle data backup folder
-mkdir $DATABKP
+# Verify if folder NOT exists
+if [[ ! -d "$DATABKP" ]]; then
+	echo "$DATABKP NOT exists on your filesystem."
+	mkdir $DATABKP
+fi
+
 HTMLBKP=$BKPDIR"/html/"  # moodle html backup folder
-mkdir $HTMLBKP
+# Verify if folder NOT exists
+if [[ ! -d "$HTMLBKP" ]]; then
+	echo "$HTMLBKP NOT exists on your filesystem."
+	mkdir $HTMLBKP
+fi
+
 
 echo "BKPDIR=\"$BKPDIR\"" >> $ENVFILE
 echo "DBBKP=\"$DBBKP\"" >> $ENVFILE
