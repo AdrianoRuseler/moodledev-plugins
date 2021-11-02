@@ -56,3 +56,6 @@ rm CleanUpEnvFile.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CleanUpEnvFile.sh
 chmod a+x CleanUpEnvFile.sh
 
+rm CourseBackUpMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CourseBackUpMDL.sh
+chmod a+x CourseBackUpMDL.sh
