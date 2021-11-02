@@ -76,15 +76,9 @@ else
 	fi
 fi
 
-#echo "Kill all user sessions..."
-#sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
-
-#echo "Activating Moodle Maintenance Mode in..."
-#sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
+echo "COURSEBKPFILE=\"$COURSEBKPFILE\"" >> $ENVFILE
+echo "RESTORECATEGORYID=\"$RESTORECATEGORYID\"" >> $ENVFILE
 
 echo "Restore course backup..."
-sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/restore_backup.php --file=$COURSEBKPFILE --categoryid=$RESTORECATEGORYID
-
-#echo "Disable the maintenance mode..."
-#sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
+sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/restore_backup.php --showdebugging --file=$COURSEBKPFILE --categoryid=$RESTORECATEGORYID
 
