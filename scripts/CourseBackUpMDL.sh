@@ -106,9 +106,5 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/backup.php $COURSEIDENTIFYER --
 echo "Disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
 
-cd ~
-echo ""
-echo "##------------ $ENVFILE -----------------##"
-cat $ENVFILE
-echo "##------------ $ENVFILE -----------------##"
-
+COURSEBKPFILE=$(find $COURSEBKPDIR -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")
+echo $COURSEBKPFILE
