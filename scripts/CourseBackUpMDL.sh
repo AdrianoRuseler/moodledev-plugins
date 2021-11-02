@@ -58,14 +58,17 @@ fi
 #Example:
 #\$sudo -u www-data /usr/bin/php admin/cli/backup.php --courseid=2 --destination=/moodle/backup/\n
 
-# COURSEBKPID=
-# COURSEBKPSHORTNAME=
+# export COURSEBKPID=
+# export COURSEBKPSHORTNAME=
+
 # Verify for COURSEBKPID and COURSEBKPSHORTNAME
 if [[ ! -v COURSEBKPID ]] || [[ -z "$COURSEBKPID" ]]; then
     echo "COURSEBKPID or COURSEBKPID is not set or is set to the empty string!"
+	echo "export COURSEBKPID="
 	# Verify for COURSEBKPSHORTNAME and COURSEBKPSHORTNAME
 	if [[ ! -v COURSEBKPSHORTNAME ]] || [[ -z "$COURSEBKPSHORTNAME" ]]; then
 		echo "COURSEBKPSHORTNAME or COURSEBKPSHORTNAME is not set or is set to the empty string!"
+		echo "export COURSEBKPSHORTNAME="
 		exit 1
 	else
 		echo "COURSEBKPSHORTNAME has the value: $COURSEBKPSHORTNAME"
@@ -89,6 +92,7 @@ if [[ ! -d "$COURSEBKPDIR" ]]; then
 fi
 
 echo "COURSEBKPDIR=\"$COURSEBKPDIR\"" >> $ENVFILE
+chown www-data:www-data -R $COURSEBKPDIR
 
 echo "Kill all user sessions..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
