@@ -27,13 +27,6 @@ if [ -f $ENVFILE ]; then
 #	rm $ENVFILE
 fi
 
-if [[ ! -v LOCALSITEURL ]] || [[ -z "$LOCALSITEURL" ]]; then
-    echo "LOCALSITEURL is not set or is set to the empty string!"
-	LOCALSITEURL=${LOCALSITENAME}'.local' # Generates ramdon site name
-else
-    echo "LOCALSITEURL has the value: $LOCALSITEURL"
-fi
-
 datastr=$(date) # Generates datastr
 echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
