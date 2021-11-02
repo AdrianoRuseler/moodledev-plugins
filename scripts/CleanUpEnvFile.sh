@@ -23,12 +23,13 @@ datastr=$(date) # Generates datastr
 
 echo "" >> $NEWENVFILE
 echo "# ----- $datastr -----" >> $NEWENVFILE
+echo "# ------------ CleanUpEnvFile ---------------" >> $ENVFILE
 
 # Remove comments | Reverse line order | Remove duplicate | Reverse line order | Print to file
 grep -v '^#' $ENVFILE | sed -n '1!G;h;$p' | awk -F "=" '!a[$1]++' | sed -n '1!G;h;$p' >> $NEWENVFILE
 
 echo "" >> $NEWENVFILE
-echo "#--------------  CleanUp -------------------" >> $NEWENVFILE
+echo "# ------------ CleanUpEnvFile ---------------" >> $ENVFILE
 
 
 export $(grep -v '^#' $NEWENVFILE | xargs)
