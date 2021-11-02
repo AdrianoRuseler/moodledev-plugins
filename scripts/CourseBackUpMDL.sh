@@ -109,3 +109,5 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
 # https://stackoverflow.com/questions/4561895/how-to-recursively-find-the-latest-modified-file-in-a-directory
 COURSEBKPFILE=$(find $COURSEBKPDIR -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")
 echo "COURSEBKPFILE=\"$COURSEBKPFILE\"" >> $ENVFILE
+
+ls -l $COURSEBKPDIR
