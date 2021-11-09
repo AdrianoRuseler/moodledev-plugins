@@ -5,3 +5,9 @@ services:
     restart: always
     ports:
       - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+# Explicitly define the persistent volume for your data storage
+volumes:
+  grafana-data:
+    external: true
