@@ -4,6 +4,10 @@ rm CreateApacheLocalSite.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CreateApacheLocalSite.sh
 chmod a+x CreateApacheLocalSite.sh
 
+rm CreateApacheSite.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CreateApacheSite.sh
+chmod a+x CreateApacheSite.sh
+
 rm CreateDataBaseUser.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CreateDataBaseUser.sh
 chmod a+x CreateDataBaseUser.sh
