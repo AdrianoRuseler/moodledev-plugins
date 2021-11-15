@@ -16,6 +16,7 @@ else
 fi
 
 ENVFILE='.'${LOCALSITENAME}'.env'
+SCRDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
@@ -91,6 +92,7 @@ if [[ ! -v BKPNAME ]] || [[ -z "$BKPNAME" ]]; then
 	echo "Now BKPNAME is set to: $BKPNAME"
 else
     echo "BKPNAME has the value: $BKPNAME"	
+	# O que fazer caso já exista backup com o nome utilizado?
 fi
 
 DBFILE=$DBBKP$BKPNAME.sql
@@ -98,6 +100,29 @@ DBBKPFILE=$DBBKP$BKPNAME.tar.gz
 DATABKPFILE=$DATABKP$BKPNAME.tar.gz
 HTMLBKPFILE=$HTMLBKP$BKPNAME.tar.gz
 
+# Verify DBFILE if file exists
+if [[ -f "$DBFILE" ]]; then
+	echo "$DBFILE file exists on your filesystem."
+	exit 1
+fi
+
+# Verify DBBKPFILE if file exists
+if [[ -f "$DBBKPFILE" ]]; then
+	echo "$DBBKPFILE file exists on your filesystem."
+	exit 1
+fi
+
+# Verify DATABKPFILE if file exists
+if [[ -f "$DATABKPFILE" ]]; then
+	echo "$DATABKPFILE file exists on your filesystem."
+	exit 1
+fi
+
+# Verify HTMLBKPFILE if file exists
+if [[ -f "$HTMLBKPFILE" ]]; then
+	echo "$HTMLBKPFILE file exists on your filesystem."
+	exit 1
+fi
 
 echo "BKPDIR=\"$BKPDIR\"" >> $ENVFILE
 echo "DBBKP=\"$DBBKP\"" >> $ENVFILE
@@ -143,7 +168,7 @@ ls -lh $HTMLBKP
 echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
 
-cd ~
+cd $SCRDIR
 echo ""
 echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
