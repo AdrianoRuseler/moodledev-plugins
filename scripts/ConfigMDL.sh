@@ -53,7 +53,7 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/cfg.php --name=lang --set=en
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/cfg.php --name=doclang --set=en
 
 # Install H5P content
-# sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/task/cli/schedule_task.php --execute='\core\task\h5p_get_content_types_task'
+sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/task/cli/schedule_task.php --execute='\core\task\h5p_get_content_types_task'
 
 echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
