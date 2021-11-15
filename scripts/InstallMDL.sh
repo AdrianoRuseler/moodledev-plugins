@@ -137,7 +137,7 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/install_database.php --lang=$MD
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/cfg.php --name=allowthemechangeonurl --set=1
 
 # Install H5P content
-sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/task/cli/schedule_task.php --execute='\core\task\h5p_get_content_types_task'
+#sudo -u www-data /usr/bin/php $MDLHOME/admin/tool/task/cli/schedule_task.php --execute='\core\task\h5p_get_content_types_task'
 
 # Add cron for moodle - Shows: no crontab for root
 (crontab -l | grep . ; echo -e "*/1 * * * * /usr/bin/php  $MDLHOME/admin/cli/cron.php >/dev/null\n") | crontab -
