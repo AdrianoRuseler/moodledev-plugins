@@ -28,6 +28,10 @@ rm InstallMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/InstallMDL.sh
 chmod a+x InstallMDL.sh
 
+rm UpdateMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdateMDL.sh
+chmod a+x UpdateMDL.sh
+
 rm ConfigMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/ConfigMDL.sh
 chmod a+x ConfigMDL.sh
