@@ -16,8 +16,8 @@ else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
 
-SCRIPTDIR=$(pwd)
 ENVFILE='.'${LOCALSITENAME}'.env'
+SCRIPTDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
