@@ -65,6 +65,9 @@ if [[ ! -v GEOIPDIR ]] || [[ -z "$GEOIPDIR" ]]; then
     echo "GEOIPDIR is not set or is set to the empty string"
     GEOIPDIR="$MDLDATA/geoip/"
 	echo "Now is set to: $GEOIPDIR"
+	datastr=$(date) # Generates datastr
+	echo "# ----- $datastr -----" >> $ENVFILE
+	echo "GEOIPDIR=\"$GEOIPDIR\"" >> $ENVFILE
 else
     echo "GEOIPDIR has the value: $GEOIPDIR"	
 fi
@@ -77,10 +80,12 @@ else
 	mkdir $GEOIPDIR
 fi
 
+
+
 # Clone git repository
 cd /tmp
 wget "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=$YOUR_LICENSE_KEY&suffix=tar.gz" -O GeoIP2-City.tar.gz
-tar -xvzf GeoIP2-City.tar.gz -C $GEOIPDIR
+tar -xvzf GeoIP2-City.tar.gz --strip-components 1 -C $GEOIPDIR
 
 rm -rf /tmp/GeoIP2-City.tar.gz
 
