@@ -71,3 +71,7 @@ chmod a+x CourseBackUpMDL.sh
 rm CourseRestoreMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/CourseRestoreMDL.sh
 chmod a+x CourseRestoreMDL.sh
+
+rm GetGeoLite2.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/GetGeoLite2.sh
+chmod a+x GetGeoLite2.sh
