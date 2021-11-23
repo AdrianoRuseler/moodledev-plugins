@@ -16,6 +16,7 @@ else
 fi
 
 ENVFILE='.'${LOCALSITENAME}'.env'
+SCRIPTDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
@@ -55,7 +56,6 @@ else
     echo "$MDLHOME or $MDLDATA NOT exists on your filesystem."
 	exit 1
 fi
-
 
 # Verify for DB Credentials
 if [[ ! -v DBNAME ]] || [[ -z "$DBNAME" ]] || [[ ! -v DBUSER ]] || [[ -z "$DBUSER" ]] || [[ ! -v DBPASS ]] || [[ -z "$DBPASS" ]]; then
@@ -155,7 +155,7 @@ echo ""
 echo "##------------------------------------------------##"
 echo ""
 
-cd ~
+cd $SCRIPTDIR
 echo ""
 echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
