@@ -17,6 +17,7 @@ else
 fi
 
 ENVFILE='.'${LOCALSITENAME}'.env'
+SCRIPTDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
