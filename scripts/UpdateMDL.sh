@@ -5,7 +5,7 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-# export LOCALSITENAME=integration
+# export LOCALSITENAME="integration"
 # export MDLBRANCH="master"
 # export MDLREPO="https://git.in.moodle.com/moodle/integration.git"
 
@@ -20,6 +20,7 @@ else
 fi
 
 ENVFILE='.'${LOCALSITENAME}'.env'
+SCRIPTDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
@@ -48,7 +49,7 @@ else
 	exit 1
 fi
 
-# export MDLBRANCH="MOODLE_311_STABLE"
+# export MDLBRANCH="MOODLE_310_STABLE"
 # export MDLREPO="https://github.com/moodle/moodle.git"
 # Verify for Moodle Branch
 if [[ ! -v MDLBRANCH ]] || [[ -z "$MDLBRANCH" ]]; then
