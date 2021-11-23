@@ -16,7 +16,7 @@ else
 fi
 
 ENVFILE='.'${LOCALSITENAME}'.env'
-SCRDIR=$(pwd)
+SCRIPTDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
@@ -168,7 +168,7 @@ ls -lh $HTMLBKP
 echo "disable the maintenance mode..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --disable
 
-cd $SCRDIR
+cd $SCRIPTDIR
 echo ""
 echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
