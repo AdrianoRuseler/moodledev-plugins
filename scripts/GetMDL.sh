@@ -17,6 +17,7 @@ else
 fi
 
 ENVFILE='.'${LOCALSITENAME}'.env'
+SCRIPTDIR=$(pwd)
 if [ -f $ENVFILE ]; then
 	# Load Environment Variables
 	export $(grep -v '^#' $ENVFILE | xargs)
@@ -109,7 +110,7 @@ chmod 740 $MDLHOME/admin/cli/cron.php
 chown www-data:www-data -R $MDLHOME
 chown www-data:www-data -R $MDLDATA
 
-cd ~
+cd $SCRIPTDIR
 echo ""
 echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
