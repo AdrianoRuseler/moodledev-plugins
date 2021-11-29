@@ -30,7 +30,7 @@ echo "##---------------------- GENERATES NEW DB -------------------------##"
 echo ""
 
 #PGDBUSER=$(pwgen -s 10 -1 -v -A -0) # Generates ramdon user name
-PGPGDBUSER=$PGDBNAME # Use same generated ramdon user name
+PGDBUSER=$PGDBNAME # Use same generated ramdon user name
 PGDBPASS=$(pwgen -s 14 1) # Generates ramdon password for db user
 # PGDBPASS="$(openssl rand -base64 12)"
 echo "DB Name: $PGDBNAME"
