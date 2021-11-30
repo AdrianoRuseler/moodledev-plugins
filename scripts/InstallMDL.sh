@@ -108,6 +108,14 @@ sed -i 's/mydbpass/'"$DBPASS"'/' $MDLCONFIGFILE # Configure DB password
 sed -i 's/mysiteurl/https:\/\/'"$LOCALSITEURL"'/' $MDLCONFIGFILE # Configure url
 sed -i 's/mydatafolder/'"${MDLDATA##*/}"'/' $MDLCONFIGFILE # Configure Moodle Data directory
 
+# Verify for USEDB; pgsql or mariadb
+if [[ ! -v USEDB ]] || [[ -z "$USEDB" ]]; then
+    echo "USEDB is not set or is set to the empty string!"
+	USEDB="mariadb"
+fi
+
+sed -i 's/mydbtype/'"$USEDB"'/' $MDLCONFIGFILE # Configure DB Name
+
  # Verify for MDLCONFIGDISTFILE
 if [[ ! -v MDLDEFAULTSDISTFILE ]] || [[ -z "$MDLDEFAULTSDISTFILE" ]]; then
     echo "MDLDEFAULTSDISTFILE is not set or is set to the empty string!"
