@@ -4,7 +4,6 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: "postgres@email.com"
-      PGADMIN_DEFAULT_PASSWORD: "postgres"
+      PGADMIN_LISTEN_PORT:5050
     ports:
       - 5050:5050
