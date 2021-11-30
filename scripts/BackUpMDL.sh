@@ -95,6 +95,12 @@ else
 	# O que fazer caso já exista backup com o nome utilizado?
 fi
 
+# Verify for USEDB; pgsql or mariadb
+if [[ ! -v USEDB ]] || [[ -z "$USEDB" ]]; then
+    echo "USEDB is not set or is set to the empty string!"
+	USEDB="mariadb"
+fi
+
 DBFILE=$DBBKP$BKPNAME.sql
 DBBKPFILE=$DBBKP$BKPNAME.tar.gz
 DATABKPFILE=$DATABKP$BKPNAME.tar.gz
@@ -142,14 +148,18 @@ sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/maintenance.php --enable
 
 
 # make database backup
-# mysqldump integration | gzip > integration.sql.gz
+if [[ "$USEDB" == "mariadb" ]]; then
+	# echo "USEDB=mariadb"
+	mysqldump $DBNAME > $DBFILE
+else
+	# echo "USEDB=pgsql"
+	sudo -i -u postgres pg_dump $DBNAME > $DBFILE
+fi
 
-mysqldump $DBNAME > $DBFILE
 tar -czf $DBBKPFILE $DBFILE
 md5sum $DBBKPFILE > $DBBKPFILE.md5
 md5sum -c $DBBKPFILE.md5
 rm $DBFILE
-
 ls -lh $DBBKP
 
 # Backup the files using tar.
