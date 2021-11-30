@@ -23,28 +23,25 @@ else
 	DBNAME=$LOCALSITENAME
 fi
 
-# Verify for USEPGDB
-if [[ ! -v USEPGDB ]] || [[ -z "$USEPGDB" ]]; then
-    echo "USEPGDB is not set or is set to the empty string!"
-	if USEPGDB	
-		USEMADB=0
-	else
-		USEMADB=1
-		# If /root/.my.cnf exists then it won't ask for root password
-		if [ -f /root/.my.cnf ]; then
-		   echo "/root/.my.cnf exists"
+# Verify for USEDB; pgsql or mariadb
+if [[ ! -v USEDB ]] || [[ -z "$USEDB" ]]; then
+    echo "USEDB is not set or is set to the empty string!"
+	USEDB="mariadb"
+fi
+	
+if [[ "$USEDB" == "mariadb" ]]; then
+	# If /root/.my.cnf exists then it won't ask for root password
+	if [ -f /root/.my.cnf ]; then
+		echo "/root/.my.cnf exists"
 		# If /root/.my.cnf doesn't exist then it'll ask for password   
-		else
-			if [[ ! -v ADMDBUSER ]] || [[ -z "$ADMDBUSER" ]] || [[ ! -v ADMDBPASS ]] || [[ -z "$ADMDBPASS" ]]; then
-				echo "ADMDBUSER or ADMDBPASS is not set or is set to the empty string!"
-				exit 1
-			fi
+	else
+		if [[ ! -v ADMDBUSER ]] || [[ -z "$ADMDBUSER" ]] || [[ ! -v ADMDBPASS ]] || [[ -z "$ADMDBPASS" ]]; then
+			echo "ADMDBUSER or ADMDBPASS is not set or is set to the empty string!"
+			exit 1
 		fi
 	fi
-else
-	USEMADB=1
-	USEPGDB=0
 fi
+	
 
 datastr=$(date) # Generates datastr
 ENVFILE='.'${DBNAME}'.env'
@@ -73,8 +70,9 @@ echo "DBNAME=\"$DBNAME\"" >> $ENVFILE
 echo "DBUSER=\"$DBUSER\"" >> $ENVFILE
 echo "DBPASS=\"$DBPASS\"" >> $ENVFILE
 
-if USEMADB
 
+
+if [[ "$USEDB" == "mariadb" ]]; then
 	# If /root/.my.cnf exists then it won't ask for root password
 	if [ -f /root/.my.cnf ]; then
 		mysql -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
@@ -88,9 +86,7 @@ if USEMADB
 		mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO '${DBUSER}'@'localhost';"
 		mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "FLUSH PRIVILEGES;"
 	fi
-
 else
-
 	touch /tmp/createPGDBUSER.sql
 	echo $'CREATE DATABASE '${DBNAME}$';' >> /tmp/createPGDBUSER.sql
 	echo $'CREATE USER '${DBUSER}$' WITH PASSWORD \''${DBPASS}$'\';' >> /tmp/createPGDBUSER.sql
@@ -99,9 +95,7 @@ else
 
 	sudo -i -u postgres psql -f /tmp/createPGDBUSER.sql # must be sudo
 	rm /tmp/createPGDBUSER.sql
-
 fi
-
 
 echo ""
 echo "##------------ $ENVFILE -----------------##"
