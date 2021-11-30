@@ -80,24 +80,40 @@ else
 	echo "$MDLHOME/local/defaults.php NOT exists."
 fi
 
-# If /root/.my.cnf exists then it won't ask for root password
-if [ -f /root/.my.cnf ]; then
-   echo "/root/.my.cnf exists"
-# If /root/.my.cnf doesn't exist then it'll ask for password   
-else
-	if [[ ! -v ADMDBUSER ]] || [[ -z "$ADMDBUSER" ]] || [[ ! -v ADMDBPASS ]] || [[ -z "$ADMDBPASS" ]]; then
-		echo "ADMDBUSER or ADMDBPASS is not set or is set to the empty string!"
-		exit 1
+# Verify for USEDB; pgsql or mariadb
+if [[ ! -v USEDB ]] || [[ -z "$USEDB" ]]; then
+    echo "USEDB is not set or is set to the empty string!"
+	USEDB="mariadb"
+	# If /root/.my.cnf exists then it won't ask for root password
+	if [ -f /root/.my.cnf ]; then
+	   echo "/root/.my.cnf exists"
+	# If /root/.my.cnf doesn't exist then it'll ask for password   
+	else
+		if [[ ! -v ADMDBUSER ]] || [[ -z "$ADMDBUSER" ]] || [[ ! -v ADMDBPASS ]] || [[ -z "$ADMDBPASS" ]]; then
+			echo "ADMDBUSER or ADMDBPASS is not set or is set to the empty string!"
+			exit 1
+		fi
 	fi
 fi
 
-# If /root/.my.cnf exists then it won't ask for root password
-if [ -f /root/.my.cnf ]; then
-	mysql -e "DROP DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-    mysql -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-# If /root/.my.cnf doesn't exist then it'll ask for password   
+if [[ "$USEDB" == "mariadb" ]]; then
+	echo "USEDB=mariadb"
+	# If /root/.my.cnf exists then it won't ask for root password
+	if [ -f /root/.my.cnf ]; then
+		mysql -e "DROP DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+		mysql -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+	# If /root/.my.cnf doesn't exist then it'll ask for password   
+	else
+		mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+		mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+	fi
 else
-    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "DROP DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-    mysql -u${ADMDBUSER} -p${ADMDBPASS} -e "CREATE DATABASE ${DBNAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+	echo "USEDB=pgsql"
+	touch /tmp/ClearPGDBUSER.sql
+	echo $'DROP DATABASE '${DBNAME}$';' >> /tmp/ClearPGDBUSER.sql
+	echo $'CREATE DATABASE '${DBNAME}$';' >> /tmp/ClearPGDBUSER.sql
+	cat /tmp/ClearPGDBUSER.sql
+	sudo -i -u postgres psql -f /tmp/ClearPGDBUSER.sql # must be sudo
+	rm /tmp/ClearPGDBUSER.sql
 fi
 
