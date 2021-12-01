@@ -67,6 +67,12 @@ else
 	echo "DBPASS has the value: $DBPASS"
 fi
 
+# Verify for USEDB; pgsql or mariadb
+if [[ ! -v USEDB ]] || [[ -z "$USEDB" ]]; then
+    echo "USEDB is not set or is set to the empty string!"
+	exit 1
+fi
+
 # Fix permissions
 chmod 740 $MDLHOME/admin/cli/cron.php
 chown www-data:www-data -R $MDLDATA
@@ -107,12 +113,6 @@ sed -i 's/mydbuser/'"$DBUSER"'/' $MDLCONFIGFILE # Configure DB user
 sed -i 's/mydbpass/'"$DBPASS"'/' $MDLCONFIGFILE # Configure DB password
 sed -i 's/mysiteurl/https:\/\/'"$LOCALSITEURL"'/' $MDLCONFIGFILE # Configure url
 sed -i 's/mydatafolder/'"${MDLDATA##*/}"'/' $MDLCONFIGFILE # Configure Moodle Data directory
-
-# Verify for USEDB; pgsql or mariadb
-if [[ ! -v USEDB ]] || [[ -z "$USEDB" ]]; then
-    echo "USEDB is not set or is set to the empty string!"
-	USEDB="mariadb"
-fi
 
 sed -i 's/mydbtype/'"$USEDB"'/' $MDLCONFIGFILE # Configure DB Name
 
