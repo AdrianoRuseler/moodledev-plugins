@@ -47,8 +47,7 @@ datastr=$(date) # Generates datastr
 ENVFILE='.'${DBNAME}'.env'
 echo "" >> $ENVFILE
 echo "# ----- $datastr -----" >> $ENVFILE
-echo "USEMADB=\"$USEMADB\"" >> $ENVFILE
-echo "USEPGDB=\"$USEPGDB\"" >> $ENVFILE
+echo "USEDB=\"$USEDB\"" >> $ENVFILE
 
 echo ""
 echo "##---------------------- GENERATES NEW DB -------------------------##"
