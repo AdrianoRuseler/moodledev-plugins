@@ -150,7 +150,7 @@ else
 	echo $'DROP DATABASE '${DBNAME}$';' >> /tmp/ClearPGDBUSER.sql
 	echo $'CREATE DATABASE '${DBNAME}$';' >> /tmp/ClearPGDBUSER.sql
 	cat /tmp/ClearPGDBUSER.sql
-	sudo -i -u postgres psql -f /tmp/ClearPGDBUSER.sql # must be sudo
+	sudo -i -u postgres psql -f /tmp/ClearPGDBUSER.sql > /dev/null # must be sudo
 	rm /tmp/ClearPGDBUSER.sql
 	sudo -i -u postgres psql -d $DBNAME -f $TMPFOLDER$DBFILE
 fi
