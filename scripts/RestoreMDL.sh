@@ -152,7 +152,7 @@ else
 	cat /tmp/ClearPGDBUSER.sql
 	sudo -i -u postgres psql -f /tmp/ClearPGDBUSER.sql > /dev/null # must be sudo
 	rm /tmp/ClearPGDBUSER.sql
-	sudo -i -u postgres psql -d $DBNAME -f $TMPFOLDER$DBFILE
+	sudo -i -u postgres psql -d $DBNAME -f $TMPFOLDER$DBFILE > /dev/null 
 fi
 
 echo "Moving old files ..."
