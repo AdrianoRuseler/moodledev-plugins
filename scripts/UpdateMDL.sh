@@ -5,9 +5,11 @@ if [ -f .env ]; then
 	export $(grep -v '^#' .env | xargs)
 fi
 
-# export LOCALSITENAME="integration"
-# export MDLBRANCH="master"
-# export MDLREPO="https://git.in.moodle.com/moodle/integration.git"
+# export LOCALSITENAME="oficina"
+# export MDLBRANCH="MOODLE_311_STABLE"
+# export MDLREPO="https://github.com/moodle/moodle.git"
+# export PLGBRANCH="main"
+# export PLGREPO="https://github.com/AdrianoRuseler/moodle311-plugins.git"
 
 # Verify for LOCALSITENAME
 if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
@@ -49,8 +51,6 @@ else
 	exit 1
 fi
 
-# export MDLBRANCH="MOODLE_310_STABLE"
-# export MDLREPO="https://github.com/moodle/moodle.git"
 # Verify for Moodle Branch
 if [[ ! -v MDLBRANCH ]] || [[ -z "$MDLBRANCH" ]]; then
     echo "MDLBRANCH is not set or is set to the empty string"
@@ -67,10 +67,27 @@ else
     echo "MDLREPO has the value: $MDLREPO"
 fi
 
-
 # Clone git repository
 cd /tmp
 git clone --depth=1 --branch=$MDLBRANCH $MDLREPO mdlcore
+
+# Verify for Moodle Branch
+if [[ ! -v PLGREPO ]] || [[ -z "$PLGREPO" ]]; then
+    echo "PLGREPO is not set or is set to the empty string"
+else
+    echo "PLGREPO has the value: $PLGREPO"
+	# Verify for Moodle Repository
+	if [[ ! -v PLGBRANCH ]] || [[ -z "$PLGBRANCH" ]]; then
+		echo "PLGBRANCH is not set or is set to the empty string"
+		export PLGBRANCH="main"
+	else
+		echo "PLGBRANCH has the value: $PLGBRANCH"
+	fi
+	cd /tmp
+	git clone --depth=1 --recursive --branch=$PLGBRANCH $PLGREPO mdlplugins
+	sudo rsync -a /tmp/mdlplugins/moodle/* /tmp/mdlcore/
+	rm -rf /tmp/mdlplugins
+fi
 
 echo "Kill all user sessions..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/kill_all_sessions.php
@@ -114,7 +131,6 @@ echo "fixing file permissions..."
 sudo chmod 740 $MDLHOME/admin/cli/cron.php
 sudo chown -R root $MDLHOME
 sudo chmod -R 0755 $MDLHOME
-
 
 
 echo "Upgrading Moodle Core started..."
