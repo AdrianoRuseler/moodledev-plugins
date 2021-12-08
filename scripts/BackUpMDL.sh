@@ -163,7 +163,10 @@ rm $DBFILE
 ls -lh $DBBKP
 
 # Backup the files using tar.
-tar -czf $DATABKPFILE $MDLDATA
+# NB: It is not necessary to copy the contents of these directories: tar -cvf backup.tar --exclude={"public_html/template/cache","public_html/images"} public_html/
+# --exclude={"$MDLDATA/cache","$MDLDATA/localcache","$MDLDATA/sessions","$MDLDATA/temp","$MDLDATA/trashdir"}
+tar -czf $DATABKPFILE --exclude={"$MDLDATA/cache","$MDLDATA/localcache","$MDLDATA/sessions","$MDLDATA/temp","$MDLDATA/trashdir"} $MDLDATA
+#tar -czf $DATABKPFILE $MDLDATA
 md5sum $DATABKPFILE > $DATABKPFILE.md5
 md5sum -c $DATABKPFILE.md5
 
