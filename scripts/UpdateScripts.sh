@@ -75,3 +75,7 @@ chmod a+x CourseRestoreMDL.sh
 rm GetGeoLite2.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/GetGeoLite2.sh
 chmod a+x GetGeoLite2.sh
+
+rm PurgeMDL.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/PurgeMDL.sh
+chmod a+x PurgeMDL.sh
