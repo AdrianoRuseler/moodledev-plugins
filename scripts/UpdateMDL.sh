@@ -34,6 +34,15 @@ if [ -f $ENVFILE ]; then
 #	rm $ENVFILE
 fi
 
+echo ""
+echo "##------------ SYSTEM INFO -----------------##"
+uname -a # Gets system info
+echo ""
+df -H # Gets disk usage info
+echo ""
+date # Gets date
+echo ""
+
 # Verify for MDLHOME and MDLDATA
 if [[ ! -v MDLHOME ]] || [[ -z "$MDLHOME" ]] || [[ ! -v MDLDATA ]] || [[ -z "$MDLDATA" ]]; then
     echo "MDLHOME or MDLDATA is not set or is set to the empty string!"
@@ -65,6 +74,19 @@ if [[ ! -v MDLREPO ]] || [[ -z "$MDLREPO" ]]; then
 	exit 1
 else
     echo "MDLREPO has the value: $MDLREPO"
+fi
+
+echo "Check for free space in $MDLHOME ..."
+REQSPACE=524288 # Required free space: 512 Mb in kB
+FREESPACE=$(df "$MDLHOME" | awk 'NR==2 { print $4 }')
+echo "Free space: $FREESPACE"
+echo "Req. space: $REQSPACE"
+if [[ $FREESPACE -le REQSPACE ]]; then
+  echo "NOT enough Space!!"
+  echo "##------------------------ FAIL -------------------------##"
+  exit 1
+else
+  echo "Enough Space!!"
 fi
 
 # Clone git repository
@@ -149,6 +171,9 @@ if [[ $? -ne 0 ]]; then # Error in upgrade script
 fi
 
 echo "Removing temporary backup files..."
+cd $MDLHOME
+cd ..
+ls -l
 sudo rm -rf $MOODLE_HOME.$DAY.tmpbkp
 
 echo "Update Moodle site name:"
