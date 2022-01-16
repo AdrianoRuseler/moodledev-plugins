@@ -174,7 +174,7 @@ echo "Removing temporary backup files..."
 cd $MDLHOME
 cd ..
 ls -l
-sudo rm -rf $MOODLE_HOME.$DAY.tmpbkp
+sudo rm -rf $MDLHOME.$DAY.tmpbkp
 
 echo "Update Moodle site name:"
 cd $MDLHOME
