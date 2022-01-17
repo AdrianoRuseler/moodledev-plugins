@@ -30,8 +30,9 @@ fi
 
 # Verify for LOCALSITEFOLDER
 if [[ ! -v LOCALSITEFOLDER ]] || [[ -z "$LOCALSITEFOLDER" ]]; then
-    echo "LOCALSITENAME is not set or is set to the empty string"
-    exit 1
+    echo "LOCALSITEFOLDER is not set or is set to the empty string"
+	LOCALSITEFOLDER=$LOCALSITENAME
+    echo "Now LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"
 else
     echo "LOCALSITEFOLDER has the value: $LOCALSITEFOLDER"	
 fi
