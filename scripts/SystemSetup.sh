@@ -21,7 +21,27 @@ echo "Install apache2..."
 sudo add-apt-repository ppa:ondrej/apache2 -y && sudo apt-get update
 sudo apt-get install -y apache2
 sudo a2enmod ssl rewrite headers deflate
-sudo service apache2 restart
+
+echo "Redirect http to https..."
+sed -i '/<\/VirtualHost>/i \
+RewriteEngine On \
+RewriteCond %{HTTPS} off \
+RewriteRule (.*) https:\/\/%{HTTP_HOST}%{REQUEST_URI}' /etc/apache2/sites-available/000-default.conf
+
+echo "Create selfsigned certificate..."
+LOCALSITEURL=$(hostname)
+openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /etc/ssl/private/${LOCALSITEURL}-selfsigned.key \
+ -newkey rsa:2048 -nodes -sha256 \
+ -subj '/CN='${LOCALSITEURL}$'' -extensions EXT -config <( \
+  printf "[dn]\nCN='${LOCALSITEURL}$'\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:'${LOCALSITEURL}$'\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+  
+echo "Change default site certificate..."
+sed -i 's/ssl-cert-snakeoil.pem/'${LOCALSITEURL}$'-selfsigned.crt/' /etc/apache2/sites-available/default-ssl.conf
+sed -i 's/ssl-cert-snakeoil.key/'${LOCALSITEURL}$'-selfsigned.key/' /etc/apache2/sites-available/default-ssl.conf
+
+echo "Enable site certificate..."
+sudo a2ensite default-ssl.conf
+sudo systemctl reload apache2
 
 echo "Install some sys utils..."
 sudo apt-get install -y git p7zip-full
