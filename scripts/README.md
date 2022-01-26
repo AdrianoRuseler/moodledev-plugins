@@ -18,3 +18,20 @@ chmod a+x UpdateScripts.sh
 export LOCALSITENAME="devtest"
 ./CreateApacheLocalSite.sh
 ```
+
+```bash
+export LOCALSITENAME="devtest"
+export MDLBRANCH="MOODLE_311_STABLE"
+export MDLREPO="https://github.com/moodle/moodle.git"
+./GetMDL.sh
+```
+
+```bash
+export LOCALSITENAME="devtest"
+./CreateDataBaseUser.sh
+```
+
+```bash
+export LOCALSITENAME="devtest"
+./InstallMDL.sh
+```
