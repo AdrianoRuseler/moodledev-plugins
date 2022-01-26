@@ -205,7 +205,7 @@ wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scr
 chmod a+x UpdateScripts.sh
 ./UpdateScripts.sh
 
-
+cd $HOMEDIR
 echo ""
 echo "##------------ $ENVFILE -----------------##"
 cat $ENVFILE
