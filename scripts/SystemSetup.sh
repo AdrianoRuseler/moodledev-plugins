@@ -49,13 +49,11 @@ sudo apt-get install -y git p7zip-full
 echo "Install python..."
 sudo apt-get install -y python3
 
-echo "Add the following Apache2 PPA repository"
-sudo add-apt-repository ppa:ondrej/apache2 -y && sudo apt-get update
 echo "Add the following PHP PPA repository"
 sudo add-apt-repository ppa:ondrej/php -y && sudo apt-get update
 
 echo "Install php7.4 for apache..."
-sudo apt-get install apache2 php7.4 libapache2-mod-php7.4
+sudo apt-get install -y php7.4 libapache2-mod-php7.4
 
 echo "Install php7.4 extensions..."
 sudo apt-get install -y php7.4-curl php7.4-zip php7.4-intl php7.4-xmlrpc php7.4-soap php7.4-xml php7.4-gd php7.4-ldap php7.4-common php7.4-cli php7.4-mbstring php7.4-mysql php7.4-imagick php7.4-json php7.4-readline php7.4-tidy
@@ -84,7 +82,7 @@ echo "To be able to generate graphics from DOT files, you must have installed th
 sudo apt-get install -y graphviz
 
 echo "Install pdftoppm poppler-utils - Poppler is a PDF rendering library based on the xpdf-3.0 code base."
-sudo apt-get install poppler-utils
+sudo apt-get install -y poppler-utils
 
 echo "To use spell-checking within the editor, you MUST have aspell 0.50 or later installed on your server..."
 sudo apt-get install -y aspell dictionaries-common libaspell15 aspell-en aspell-pt-br aspell-doc spellutils
@@ -117,3 +115,13 @@ sudo apt-get install -y aspell dictionaries-common libaspell15 aspell-en aspell-
 #sudo apt-get install -y mongodb-org
 #sudo systemctl enable mongod
 #sudo systemctl start mongod
+
+
+
+echo "Update and Upgrade System..."
+sudo apt-get update 
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef
+
+echo "Autoremove and Autoclean System..."
+sudo apt-get autoremove -y && sudo apt-get autoclean -y
+
