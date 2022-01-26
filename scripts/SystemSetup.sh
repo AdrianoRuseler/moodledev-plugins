@@ -103,6 +103,35 @@ sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el,s390x] https://espejito.f
 sudo apt-get update
 sudo apt-get install -y mariadb-server
 
+DBROOTPASS=$(pwgen -s 14 1) # Generates ramdon password for db user
+echo "mysql root pass is: "$DBROOTPASS
+# Make sure that NOBODY can access the server without a password
+mysql -e "UPDATE mysql.user SET Password = PASSWORD('"$DBROOTPASS"') WHERE User = 'root'"
+# Kill the anonymous users
+mysql -e "DROP USER ''@'localhost'"
+# Because our hostname varies we'll use some Bash magic here.
+mysql -e "DROP USER ''@'$(hostname)'"
+# Kill off the demo database
+mysql -e "DROP DATABASE test"
+# Make our changes take effect
+mysql -e "FLUSH PRIVILEGES"
+
+sudo echo "\
+[client]
+default-character-set = utf8mb4
+
+[mysqld]
+innodb_file_format = Barracuda
+innodb_file_per_table = 1
+innodb_large_prefix
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+skip-character-set-client-handshake
+
+[mysql]
+default-character-set = utf8mb4" >> /etc/mysql/my.cnf
+
 
 #echo "Install TeX..."
 #sudo apt-get install -y texlive imagemagick
