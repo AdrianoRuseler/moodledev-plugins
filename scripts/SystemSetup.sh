@@ -170,3 +170,9 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::=--forc
 echo "Autoremove and Autoclean System..."
 sudo apt-get autoremove -y && sudo apt-get autoclean -y
 
+
+mkdir scripts
+cd scripts
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdateScripts.sh -O UpdateScripts.sh
+chmod a+x UpdateScripts.sh
+./UpdateScripts.sh
