@@ -103,7 +103,7 @@ sudo add-apt-repository 'deb [arch=amd64] http://mariadb.mirror.triple-it.nl/rep
 sudo apt-get update
 sudo apt-get install -y mariadb-server
 
-DBROOTPASS=$(pwgen -s 14 1) # Generates ramdon password for db root user
+DBROOTPASS=$(pwgen -s 16 1) # Generates ramdon password for db root user
 DBADMPASS=$DBROOTPASS # Generates ramdon password for db admin
 echo "mysql root pass is: "$DBROOTPASS
 echo "dbadmin pass is: "$DBROOTPASS
@@ -111,7 +111,6 @@ echo "dbadmin pass is: "$DBROOTPASS
 mysql -e "UPDATE mysql.user SET Password = PASSWORD('"$DBROOTPASS"') WHERE User = 'root'"
 mysql -e "CREATE USER 'dbadmin'@'localhost' IDENTIFIED BY '"$DBADMPASS"';"
 mysql -e "GRANT ALL PRIVILEGES ON * . * TO 'dbadmin'@'localhost' WITH GRANT OPTION;"
-# Make our changes take effect
 mysql -e "FLUSH PRIVILEGES"
 
 sudo echo "\
@@ -132,7 +131,7 @@ default-character-set = utf8mb4" >> /etc/mysql/my.cnf
 
 sudo echo "[client]" >> /root/.my.cnf
 sudo echo 'user="dbadmin"' >> /root/.my.cnf
-sudo echo 'user="'$DBADMPASS'"' >> /root/.my.cnf
+sudo echo 'password="'$DBADMPASS'"' >> /root/.my.cnf
 cat /root/.my.cnf
 
 sudo systemctl restart mariadb.service
