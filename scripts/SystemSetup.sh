@@ -98,27 +98,19 @@ sudo apt-get install -y pwgen # Install pwgen
 echo "Install MariaDB..."
 sudo apt-get install -y software-properties-common dirmngr apt-transport-https
 sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
-sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el,s390x] https://espejito.fder.edu.uy/mariadb/repo/10.5/ubuntu focal main'
+sudo add-apt-repository 'deb [arch=amd64] http://mariadb.mirror.triple-it.nl/repo/10.6/ubuntu focal main'
 
 sudo apt-get update
 sudo apt-get install -y mariadb-server
 
-DBROOTPASS=$(pwgen -s 14 1) # Generates ramdon password for db user
-DBADMPASS=$(pwgen -s 14 1) # Generates ramdon password for db user
+DBROOTPASS=$(pwgen -s 14 1) # Generates ramdon password for db root user
+DBADMPASS=$DBROOTPASS # Generates ramdon password for db admin
 echo "mysql root pass is: "$DBROOTPASS
 echo "dbadmin pass is: "$DBROOTPASS
 # Make sure that NOBODY can access the server without a password
 mysql -e "UPDATE mysql.user SET Password = PASSWORD('"$DBROOTPASS"') WHERE User = 'root'"
 mysql -e "CREATE USER 'dbadmin'@'localhost' IDENTIFIED BY '"$DBADMPASS"';"
 mysql -e "GRANT ALL PRIVILEGES ON * . * TO 'dbadmin'@'localhost' WITH GRANT OPTION;"
-
-# Kill the anonymous users
-mysql -e "DROP USER ''@'localhost'"
-# Because our hostname varies we'll use some Bash magic here.
-mysql -e "DROP USER ''@'$(hostname)'"
-# Kill off the demo database
-mysql -e "DROP DATABASE test"
-
 # Make our changes take effect
 mysql -e "FLUSH PRIVILEGES"
 
