@@ -12,3 +12,9 @@ wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scr
 chmod a+x UpdateScripts.sh
 ./UpdateScripts.sh
 ```
+
+
+```bash
+export LOCALSITENAME="devtest"
+./CreateApacheLocalSite.sh
+```
