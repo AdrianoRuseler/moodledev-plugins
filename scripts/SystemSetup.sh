@@ -1,5 +1,7 @@
 #!/bin/bash
 
+HOMEDIR=$(pwd)
+
 echo "Update and Upgrade System..."
 sudo apt-get update 
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef
@@ -170,7 +172,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::=--forc
 echo "Autoremove and Autoclean System..."
 sudo apt-get autoremove -y && sudo apt-get autoclean -y
 
-
+cd $HOMEDIR
 mkdir scripts
 cd scripts
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdateScripts.sh -O UpdateScripts.sh
