@@ -1,6 +1,18 @@
 #!/bin/bash
 
+# Load .env
+ENVFILE='.env'
+if [ -f $ENVFILE ]; then
+	# Load Environment Variables
+	export $(grep -v '^#' $ENVFILE | xargs)
+fi
+
 HOMEDIR=$(pwd)
+
+datastr=$(date) # Generates datastr
+echo "" >> $ENVFILE
+echo "# ----- $datastr -----" >> $ENVFILE
+echo "HOMEDIR=\"$HOMEDIR\"" >> $ENVFILE
 
 echo "Update and Upgrade System..."
 sudo apt-get update 
@@ -32,6 +44,8 @@ RewriteRule (.*) https:\/\/%{HTTP_HOST}%{REQUEST_URI}' /etc/apache2/sites-availa
 
 echo "Create selfsigned certificate..."
 LOCALSITEURL=$(hostname)
+echo "LOCALSITEURL=\"$LOCALSITEURL\"" >> $ENVFILE
+
 openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /etc/ssl/private/${LOCALSITEURL}-selfsigned.key \
  -newkey rsa:2048 -nodes -sha256 \
  -subj '/CN='${LOCALSITEURL}$'' -extensions EXT -config <( \
@@ -107,6 +121,9 @@ sudo apt-get install -y mariadb-server
 
 DBROOTPASS=$(pwgen -s 16 1) # Generates ramdon password for db root user
 DBADMPASS=$DBROOTPASS # Generates ramdon password for db admin
+echo "DBROOTPASS=\"$DBROOTPASS\"" >> $ENVFILE
+echo "DBADMPASS=\"$DBADMPASS\"" >> $ENVFILE
+
 echo "mysql root pass is: "$DBROOTPASS
 echo "dbadmin pass is: "$DBROOTPASS
 # Make sure that NOBODY can access the server without a password
@@ -166,6 +183,13 @@ sudo systemctl restart mariadb.service
 #sudo systemctl enable mongod
 #sudo systemctl start mongod
 
+# TODO
+DEBIAN_FRONTEND=noninteractive apt-get install -qq slapd ldap-utils ldapscripts
+LDAPROOTPASS=$(pwgen -s 16 1) # Generates ramdon password for db root user
+echo "LDAP root pass is: "$LDAPROOTPASS
+slappasswd -s $LDAPROOTPASS
+echo "LDAPROOTPASS=\"$LDAPROOTPASS\"" >> $ENVFILE
+
 echo "Update and Upgrade System..."
 sudo apt-get update 
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef
@@ -179,3 +203,10 @@ cd scripts
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdateScripts.sh -O UpdateScripts.sh
 chmod a+x UpdateScripts.sh
 ./UpdateScripts.sh
+
+
+echo ""
+echo "##------------ $ENVFILE -----------------##"
+cat $ENVFILE
+echo "##------------ $ENVFILE -----------------##"
+echo ""
