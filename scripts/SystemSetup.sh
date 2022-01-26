@@ -127,6 +127,7 @@ innodb_large_prefix
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
 skip-character-set-client-handshake
+innodb_read_only_compressed=OFF
 
 [mysql]
 default-character-set = utf8mb4" >> /etc/mysql/my.cnf
