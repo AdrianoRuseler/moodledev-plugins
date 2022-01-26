@@ -49,6 +49,18 @@ sudo apt-get install -y git p7zip-full
 echo "Install python..."
 sudo apt-get install -y python3
 
+# Select php version
+# sudo update-alternatives --config php
+
+echo "To be able to generate graphics from DOT files, you must have installed the dot executable..."
+sudo apt-get install -y graphviz
+
+echo "Install pdftoppm poppler-utils - Poppler is a PDF rendering library based on the xpdf-3.0 code base."
+sudo apt-get install -y poppler-utils
+
+echo "To use spell-checking within the editor, you MUST have aspell 0.50 or later installed on your server..."
+sudo apt-get install -y aspell dictionaries-common libaspell15 aspell-en aspell-pt-br aspell-doc spellutils
+
 echo "Add the following PHP PPA repository"
 sudo add-apt-repository ppa:ondrej/php -y && sudo apt-get update
 
@@ -73,21 +85,24 @@ sed -i 's/;max_input_vars =.*/max_input_vars = 5000/' /etc/php/7.4/apache2/php.i
 # populate site folder with index.php and phpinfo
 touch /var/www/html/index.php
 echo '<?php  phpinfo(); ?>' >> /var/www/html/index.php
-mv index.html index.html.bkp
 
 systemctl reload apache2
+cd /var/www/html
+ls -l
+sudo mv index.html index.html.bkp
 
-# Select php version
-# sudo update-alternatives --config php
+echo "Install pwgen..."
+# https://www.2daygeek.com/5-ways-to-generate-a-random-strong-password-in-linux-terminal/
+sudo apt-get install -y pwgen # Install pwgen
 
-echo "To be able to generate graphics from DOT files, you must have installed the dot executable..."
-sudo apt-get install -y graphviz
+echo "Install MariaDB..."
+sudo apt-get install -y software-properties-common dirmngr apt-transport-https
+sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el,s390x] https://espejito.fder.edu.uy/mariadb/repo/10.6/ubuntu focal main'
 
-echo "Install pdftoppm poppler-utils - Poppler is a PDF rendering library based on the xpdf-3.0 code base."
-sudo apt-get install -y poppler-utils
+sudo apt-get update
+sudo apt-get install -y mariadb-server
 
-echo "To use spell-checking within the editor, you MUST have aspell 0.50 or later installed on your server..."
-sudo apt-get install -y aspell dictionaries-common libaspell15 aspell-en aspell-pt-br aspell-doc spellutils
 
 #echo "Install TeX..."
 #sudo apt-get install -y texlive imagemagick
@@ -100,8 +115,6 @@ sudo apt-get install -y aspell dictionaries-common libaspell15 aspell-en aspell-
 # sudo apt-get install -y maxima gcc gnuplot
 
 #sudo apt install memcached libmemcached-tools
-
-
 
 # https://redis.io/download
 # sudo apt-get install redis-server
@@ -117,8 +130,6 @@ sudo apt-get install -y aspell dictionaries-common libaspell15 aspell-en aspell-
 #sudo apt-get install -y mongodb-org
 #sudo systemctl enable mongod
 #sudo systemctl start mongod
-
-
 
 echo "Update and Upgrade System..."
 sudo apt-get update 
