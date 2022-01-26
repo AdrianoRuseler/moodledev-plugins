@@ -55,6 +55,14 @@ else
 fi
 
 # Verify if folder exists
+if [[ -d "/var/www/data" ]]; then
+	echo "/var/www/data exists on your filesystem."
+else
+    echo "/var/www/data NOT exists on your filesystem."
+	mkdir /var/www/data
+fi
+
+# Verify if folder exists
 if [[ -d "$MDLDATA" ]]; then
 	echo "$MDLDATA exists on your filesystem."
 else
