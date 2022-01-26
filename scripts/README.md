@@ -5,3 +5,10 @@ chmod a+x SystemSetup.sh
 ./SystemSetup.sh
 ```
 
+```bash
+mkdir scripts
+cd scripts
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdateScripts.sh -O UpdateScripts.sh
+chmod a+x UpdateScripts.sh
+./SystemSetup.sh
+```
