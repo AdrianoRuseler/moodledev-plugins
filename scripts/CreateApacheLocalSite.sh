@@ -65,7 +65,8 @@ else
 fi
 
 # Create new conf files
-cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/default-ssl.conf -O /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+#cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
 
 # Create certificate
 openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /etc/ssl/private/${LOCALSITEURL}-selfsigned.key \
