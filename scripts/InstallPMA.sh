@@ -35,11 +35,6 @@ else
     echo "LOCALSITEURL has the value: $LOCALSITEURL"
 fi
 
-datastr=$(date) # Generates datastr
-echo "" >> $ENVFILE
-echo "# ----- $datastr -----" >> $ENVFILE
-echo "# -------------- Install PMA -----------------" >> $ENVFILE
-
 # Verify if folder exists
 if [[ -d "$LOCALSITEDIR" ]]; then
 	echo "$LOCALSITEDIR exists on your filesystem."
@@ -48,14 +43,16 @@ else
 	exit 1
 fi
 
+PMAVER='5.1.2'
 cd /tmp/
-wget https://files.phpmyadmin.net/phpMyAdmin/5.1.2/phpMyAdmin-5.1.2-all-languages.tar.xz
-sudo tar -xf phpMyAdmin-5.1.2-all-languages.tar.xz
-sudo rsync -a phpMyAdmin-5.1.2-all-languages/ $LOCALSITEDIR
+wget 'https://files.phpmyadmin.net/phpMyAdmin/'$PMAVER'/phpMyAdmin-'$PMAVER'-all-languages.tar.xz'
+sudo tar -xf phpMyAdmin-$PMAVER-all-languages.tar.xz
+sudo rsync -a phpMyAdmin-$PMAVER-all-languages/ $LOCALSITEDIR
 sudo chown -R www-data:www-data $LOCALSITEDIR
-sudo rm -rf phpMyAdmin-5.1.2-all-languages phpMyAdmin-5.1.2-all-languages.tar.xz
+sudo rm -rf phpMyAdmin-$PMAVER-all-languages phpMyAdmin-$PMAVER-all-languages.tar.xz
 
 cd $LOCALSITEDIR
-sudo cp config.sample.inc.php config.inc.php
- 
 
+# https://stackoverflow.com/questions/34539132/updating-phpmyadmin-blowfish-secret-via-bash-shell-script-in-linux
+randomBlowfishSecret=$(openssl rand -base64 32)
+sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" config.sample.inc.php > config.inc.php
