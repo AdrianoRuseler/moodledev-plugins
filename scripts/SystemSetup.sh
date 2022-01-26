@@ -8,6 +8,7 @@ if [ -f $ENVFILE ]; then
 fi
 
 HOMEDIR=$(pwd)
+#sudo hostnamectl set-hostname server.local
 
 datastr=$(date) # Generates datastr
 echo "" >> $ENVFILE
