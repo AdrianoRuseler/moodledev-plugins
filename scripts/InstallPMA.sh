@@ -43,8 +43,10 @@ else
 	exit 1
 fi
 
-PMAVER='5.1.2'
 cd /tmp/
+wget https://raw.githubusercontent.com/phpmyadmin/phpmyadmin/STABLE/README -O PMAREADME
+PMAVER=$(sed -n 's/^Version \(.*\)$/\1/p' PMAREADME)
+
 wget 'https://files.phpmyadmin.net/phpMyAdmin/'$PMAVER'/phpMyAdmin-'$PMAVER'-all-languages.tar.xz'
 sudo tar -xf phpMyAdmin-$PMAVER-all-languages.tar.xz
 sudo rsync -a phpMyAdmin-$PMAVER-all-languages/ $LOCALSITEDIR
