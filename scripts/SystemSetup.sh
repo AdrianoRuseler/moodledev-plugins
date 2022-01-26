@@ -19,7 +19,7 @@ update-locale LANG=pt_BR.UTF-8 # Requires reboot
 
 echo "Install apache2..."
 sudo add-apt-repository ppa:ondrej/apache2 -y && sudo apt-get update
-sudo apt-get install apache2
+sudo apt-get install -y apache2
 sudo a2enmod ssl rewrite headers deflate
 sudo service apache2 restart
 
