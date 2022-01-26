@@ -73,6 +73,9 @@ sed -i 's/upload_max_filesize =.*/upload_max_filesize = 128M/' /etc/php/7.4/apac
 sed -i 's/;max_input_vars =.*/max_input_vars = 5000/' /etc/php/7.4/apache2/php.ini
 systemctl reload apache2
 
+# populate site folder with index.php and phpinfo
+touch /var/www/html/index.php
+echo '<?php  phpinfo(); ?>' >> /var/www/html/index.php
 
 # Select php version
 # sudo update-alternatives --config php
