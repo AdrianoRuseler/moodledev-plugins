@@ -79,3 +79,11 @@ chmod a+x GetGeoLite2.sh
 rm PurgeMDL.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/PurgeMDL.sh
 chmod a+x PurgeMDL.sh
+
+rm InstallPMA.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/InstallPMA.sh
+chmod a+x InstallPMA.sh
+
+rm UpdatePMA.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdatePMA.sh
+chmod a+x UpdatePMA.sh
