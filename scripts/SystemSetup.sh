@@ -107,6 +107,7 @@ systemctl reload apache2
 cd /var/www/html
 ls -l
 sudo mv index.html index.html.bkp
+cd $HOMEDIR
 
 echo "Install pwgen..."
 # https://www.2daygeek.com/5-ways-to-generate-a-random-strong-password-in-linux-terminal/
