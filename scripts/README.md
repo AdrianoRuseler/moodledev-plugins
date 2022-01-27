@@ -4,7 +4,7 @@ wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scr
 chmod a+x SystemSetup.sh
 ./SystemSetup.sh
 ```
-
+## Get scripts
 ```bash
 mkdir scripts
 cd scripts
@@ -12,31 +12,20 @@ wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scr
 chmod a+x UpdateScripts.sh
 ./UpdateScripts.sh
 ```
-
+## Install phpMyAdmin
 ```bash
 export LOCALSITENAME="pma"
 ./CreateApacheLocalSite.sh
 ./InstallPMA.sh
 ```
-
-```bash
-export LOCALSITENAME="devtest"
-./CreateApacheLocalSite.sh
-```
-
+## Install Moodle
 ```bash
 export LOCALSITENAME="devtest"
 export MDLBRANCH="MOODLE_311_STABLE"
 export MDLREPO="https://github.com/moodle/moodle.git"
+./CreateApacheLocalSite.sh
 ./GetMDL.sh
-```
-
-```bash
-export LOCALSITENAME="devtest"
 ./CreateDataBaseUser.sh
-```
-
-```bash
-export LOCALSITENAME="devtest"
 ./InstallMDL.sh
 ```
+
