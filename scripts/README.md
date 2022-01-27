@@ -15,12 +15,14 @@ chmod a+x UpdateScripts.sh
 ## Install phpMyAdmin
 ```bash
 export LOCALSITENAME="pma"
+export SITETYPE="PMA"
 ./CreateApacheLocalSite.sh
 ./InstallPMA.sh
 ```
 ## Install Moodle
 ```bash
 export LOCALSITENAME="devtest"
+export SITETYPE="MDL"
 export MDLBRANCH="MOODLE_311_STABLE"
 export MDLREPO="https://github.com/moodle/moodle.git"
 ./CreateApacheLocalSite.sh
