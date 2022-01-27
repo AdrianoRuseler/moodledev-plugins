@@ -191,6 +191,10 @@ echo "LDAP root pass is: "$LDAPROOTPASS
 slappasswd -s $LDAPROOTPASS
 echo "LDAPROOTPASS=\"$LDAPROOTPASS\"" >> $ENVFILE
 
+
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
 echo "Update and Upgrade System..."
 sudo apt-get update 
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef
