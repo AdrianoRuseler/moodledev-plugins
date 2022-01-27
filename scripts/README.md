@@ -13,6 +13,11 @@ chmod a+x UpdateScripts.sh
 ./UpdateScripts.sh
 ```
 
+```bash
+export LOCALSITENAME="pma"
+./CreateApacheLocalSite.sh
+./InstallPMA.sh
+```
 
 ```bash
 export LOCALSITENAME="devtest"
