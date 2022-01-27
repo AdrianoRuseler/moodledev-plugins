@@ -4,9 +4,7 @@
 
 # Set web server (apache)
 # export LOCALSITENAME="devtest"
-# export LOCALSITEURL="devtest.local"
-# export LOCALSITEFOLDER="devtest"
-# export LOCALSITEDIR="devtest"
+# export SITETYPE="MDL"
 
 # Load .env
 if [ -f .env ]; then
@@ -22,6 +20,14 @@ if [[ ! -v LOCALSITENAME ]] || [[ -z "$LOCALSITENAME" ]]; then
 else
     echo "LOCALSITENAME has the value: $LOCALSITENAME"	
 fi
+
+
+# Verify for SITETYPE;  MDL, PMA, PHP, ...
+if [[ ! -v SITETYPE ]] || [[ -z "$SITETYPE" ]]; then
+    echo "SITETYPE is not set or is set to the empty string!"
+	SITETYPE="PHP"
+fi
+
 
 datastr=$(date) # Generates datastr
 ENVFILE='.'${LOCALSITENAME}'.env'
@@ -64,9 +70,8 @@ else
     echo "$LOCALSITEFOLDER NOT exists on your filesystem."
 fi
 
-# Create new conf files
-wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/default-ssl.conf -O /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
-#cp /etc/apache2/sites-available/default-ssl.conf.bak /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+# create site folder
+mkdir ${LOCALSITEDIR}
 
 # Create certificate
 openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /etc/ssl/private/${LOCALSITEURL}-selfsigned.key \
@@ -74,12 +79,40 @@ openssl req -x509 -out /etc/ssl/certs/${LOCALSITEURL}-selfsigned.crt -keyout /et
  -subj '/CN='${LOCALSITEURL}$'' -extensions EXT -config <( \
   printf "[dn]\nCN='${LOCALSITEURL}$'\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:'${LOCALSITEURL}$'\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
   
-# create site folder
-mkdir ${LOCALSITEDIR}
+# Create new conf files
+case $SITETYPE in
+  MDL)
+    echo "Site type is MDL"
+	# populate site folder with index.php and phpinfo
+	touch ${LOCALSITEDIR}/index.php
+	echo '<?php  phpinfo(); ?>' >> ${LOCALSITEDIR}/index.php
+	wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/mdl-default-ssl.conf -O /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+    ;;
 
-# populate site folder with index.php and phpinfo
-touch ${LOCALSITEDIR}/index.php
-echo '<?php  phpinfo(); ?>' >> ${LOCALSITEDIR}/index.php
+  PMA)
+    echo "Site type is PMA"	
+	# populate site folder with index.php and phpinfo
+	touch ${LOCALSITEDIR}/index.php
+	echo '<?php  phpinfo(); ?>' >> ${LOCALSITEDIR}/index.php
+	wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/pma-default-ssl.conf -O /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+    ;;
+	
+  PHP)
+    echo "Site type is PHP"
+	# populate site folder with index.php and phpinfo
+	touch ${LOCALSITEDIR}/index.php
+	echo '<?php  phpinfo(); ?>' >> ${LOCALSITEDIR}/index.php
+	wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/default-ssl.conf -O /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+    ;;
+  *)
+    echo "Site type is unknown"
+	# populate site folder with index.php and phpinfo
+	touch ${LOCALSITEDIR}/index.php
+	echo '<?php  phpinfo(); ?>' >> ${LOCALSITEDIR}/index.php
+	wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/default-ssl.conf -O /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
+    ;;
+esac
+
 
 # Change site folder and name
 sed -i 's/\/var\/www\/html/\/var\/www\/html\/'${LOCALSITEFOLDER}$'/' /etc/apache2/sites-available/${LOCALSITEURL}-ssl.conf
