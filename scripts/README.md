@@ -27,5 +27,6 @@ export MDLREPO="https://github.com/moodle/moodle.git"
 ./GetMDL.sh
 ./CreateDataBaseUser.sh
 ./InstallMDL.sh
+./ConfigMDL.sh
 ```
 
