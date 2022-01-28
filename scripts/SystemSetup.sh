@@ -38,10 +38,7 @@ sudo apt-get install -y apache2
 sudo a2enmod ssl rewrite headers deflate
 
 echo "Redirect http to https..."
-sed -i '/<\/VirtualHost>/i \\n\t
-RewriteEngine On \\n\t
-RewriteCond %{HTTPS} off \\n\t
-RewriteRule (.*) https:\/\/%{HTTP_HOST}%{REQUEST_URI}' /etc/apache2/sites-available/000-default.conf
+sed -i '/combined/a \\n\tRewriteEngine On \n\tRewriteCond %{HTTPS} off \n\tRewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}' /etc/apache2/sites-available/000-default.conf
 
 echo "Create selfsigned certificate..."
 LOCALSITEURL=$(hostname)
