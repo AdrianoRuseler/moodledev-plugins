@@ -38,9 +38,9 @@ sudo apt-get install -y apache2
 sudo a2enmod ssl rewrite headers deflate
 
 echo "Redirect http to https..."
-sed -i '/<\/VirtualHost>/i \
-RewriteEngine On \
-RewriteCond %{HTTPS} off \
+sed -i '/<\/VirtualHost>/i \\n\t
+RewriteEngine On \\n\t
+RewriteCond %{HTTPS} off \\n\t
 RewriteRule (.*) https:\/\/%{HTTP_HOST}%{REQUEST_URI}' /etc/apache2/sites-available/000-default.conf
 
 echo "Create selfsigned certificate..."
@@ -192,7 +192,14 @@ echo "LDAP root pass is: "$LDAPROOTPASS
 slappasswd -s $LDAPROOTPASS
 echo "LDAPROOTPASS=\"$LDAPROOTPASS\"" >> $ENVFILE
 
+echo "Install Doker and compose..."
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
 
+echo "Install nodejs..."
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
