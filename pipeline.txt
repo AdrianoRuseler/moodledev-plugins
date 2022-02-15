@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage('Copy Moodle folder from moodleteste to servers') {
+            steps {
+                sh 'echo "TODO for server 01!"' // Keep config.php file and fix file permissions
+				sh 'echo "TODO for server 02!"' // Keep config.php file and fix file permissions
+				sh 'echo "TODO for server 03!"' // Keep config.php file and fix file permissions
+            }
+        }
+		stage('Copy Moodle folder from moodleteste to server 02.') {
+            steps {
+                sh 'echo "TODO!"'
+            }
+        }
+		stage('Copy Moodle folder from moodleteste to server 03.') {
+            steps {
+                sh 'echo "TODO!"'
+            }
+        }
+        stage('Example SSH Username with private key') {
+            environment {
+                SSH_CREDS = credentials('my-predefined-ssh-creds')
+            }
+            steps {
+                sh 'echo "SSH private key is located at $SSH_CREDS"'
+                sh 'echo "SSH user is $SSH_CREDS_USR"'
+                sh 'echo "SSH passphrase is $SSH_CREDS_PSW"'
+            }
+        }
+    }
+}
+
