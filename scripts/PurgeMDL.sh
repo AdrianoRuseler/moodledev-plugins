@@ -56,12 +56,22 @@ echo "CLI purge_caches..."
 sudo -u www-data /usr/bin/php $MDLHOME/admin/cli/purge_caches.php
 
 ls -lh $MDLDATA
-echo "Clear Moodle data..."
+
+echo "Delete Moodle data tmp folders..."
 rm -rf $MDLDATA/cache
 rm -rf $MDLDATA/localcache
 rm -rf $MDLDATA/sessions
 rm -rf $MDLDATA/temp
 rm -rf $MDLDATA/trashdir
+
+echo "Create Moodle data tmp folders..."
+mkdir $MDLDATA/cache
+mkdir $MDLDATA/localcache
+mkdir $MDLDATA/sessions
+mkdir $MDLDATA/temp
+mkdir $MDLDATA/trashdir
+sudo chown -R www-data:www-data $MDLDATA
+
 
 ls -lh $MDLDATA
 	
