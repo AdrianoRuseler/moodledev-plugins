@@ -20,3 +20,8 @@ sudo apt-get autoremove -y && sudo apt-get autoclean -y
 echo ""
 date # Gets date
 uptime # Gets Up time
+
+sudo shutdown -r
+
+
+
