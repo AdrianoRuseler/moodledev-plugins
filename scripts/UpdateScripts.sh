@@ -87,3 +87,7 @@ chmod a+x InstallPMA.sh
 rm UpdatePMA.sh
 wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/UpdatePMA.sh
 chmod a+x UpdatePMA.sh
+
+rm SystemUpdate.sh
+wget https://raw.githubusercontent.com/AdrianoRuseler/moodledev-plugins/main/scripts/SystemUpdate.sh
+chmod a+x SystemUpdate.sh
