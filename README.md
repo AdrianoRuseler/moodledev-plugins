@@ -35,9 +35,20 @@ git submodule add -b MOODLE_39_STABLE https://github.com/grabs/moodle-local_admi
 
 
 ## Remove
+## Remove
+
 ```bash
-git submodule deinit <path_to_submodule>
-git rm <path_to_submodule>
-git commit -m "Removed submodule "
-rm -rf .git/modules/<path_to_submodule>
+SUBMPATH="moodle/path/to/submodule"
+git submodule deinit $SUBMPATH
+git rm $SUBMPATH
+git commit -m "Removed submodule $SUBMPATH"
+rm -rf .git/modules/$SUBMPATH
+git push
+```
+
+```bash
+git submodule add -b branch https://urltoplugin.git path/to/submodule
+git add .
+git commit -m "Some update info here..."
+git push
 ```
