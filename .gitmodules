@@ -14,3 +14,7 @@
 	path = moodle/admin/tool/pluginskel
 	url = https://github.com/mudrd8mz/moodle-tool_pluginskel.git
 	branch = main
+[submodule "moodle/local/webhooks"]
+	path = moodle/local/webhooks
+	url = https://github.com/valentineus/moodle-webhooks.git
+	branch = v3.0.0-stable
