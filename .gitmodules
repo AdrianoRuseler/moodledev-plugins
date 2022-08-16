@@ -18,3 +18,7 @@
 	path = moodle/local/webhooks
 	url = https://github.com/valentineus/moodle-webhooks.git
 	branch = v3.0.0-stable
+[submodule "moodle/local/mailtest"]
+	path = moodle/local/mailtest
+	url = https://github.com/michael-milette/moodle-local_mailtest.git
+	branch = master
