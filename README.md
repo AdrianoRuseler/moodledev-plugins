@@ -39,6 +39,13 @@ git submodule add -b MOODLE_39_STABLE https://github.com/grabs/moodle-local_admi
 git submodule add -b v3.0.0-stable https://github.com/valentineus/moodle-webhooks.git local/webhooks
 ```
 
+- https://github.com/michael-milette/moodle-local_mailtest
+
+```bash
+git submodule add -b master https://github.com/michael-milette/moodle-local_mailtest.git local/mailtest
+```
+
+
 ## Remove
 
 ```bash
