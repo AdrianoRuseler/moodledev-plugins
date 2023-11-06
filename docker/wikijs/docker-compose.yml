@@ -2,9 +2,9 @@ version: "3"
 services:
 
   db:
-    image: postgres:11-alpine
+    image: postgres:alpine
     environment:
-      POSTGRES_DB: wiki
+      POSTGRES_DB: wikidb
       POSTGRES_PASSWORD: wikijsrocks
       POSTGRES_USER: wikijs
     logging:
@@ -23,10 +23,13 @@ services:
       DB_PORT: 5432
       DB_USER: wikijs
       DB_PASS: wikijsrocks
-      DB_NAME: wiki
+      DB_NAME: wikidb
     restart: unless-stopped
     ports:
       - "3000:3000"
 
 volumes:
   db-data:
+  
+# ProxyPass / http://localhost:3000/
+# ProxyPassReverse / http://localhost:3000/
